@@ -1,0 +1,26 @@
+.page {
+  max-width: 1280px;
+  min-width: 320px;
+  min-height: 100vh;
+  box-sizing: border-box;
+  background-color:  #202020;
+  color: #fff;
+  font-family: 'Inter', Arial, sans-serif;
+  font-weight: 400;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  margin: 0 auto;
+  padding: 0;
+}
+
+@media screen and (max-width: 950px) {
+  .page {
+    padding: 0;
+  }
+}
+
+@media screen and (max-width: 650px) {
+  .page {
+    padding: 0;
+  }
+}
