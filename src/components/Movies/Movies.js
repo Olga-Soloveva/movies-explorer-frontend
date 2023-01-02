@@ -1,4 +1,7 @@
 import "./Movies.css";
+import Header from "../Header/Header";
+import Navigation from "../Navigation/Navigation";
+import Footer from "../Footer/Footer";
 import SearchForm from "../SearchForm/SearchForm";
 import FilterCheckbox from "../FilterCheckbox/FilterCheckbox";
 import Preloader from "../Preloader/Preloader";
@@ -10,11 +13,14 @@ function Movies() {
     <>
       <p className="title">Компонент Movies</p>
       <div className="movies">
-        <SearchForm/>
-        <FilterCheckbox/>
-        <Preloader/>
-        <MoviesCardList/>
-        <MoviesCard/>
+        <Header />
+        <Navigation />
+        <SearchForm />
+        <FilterCheckbox />
+        <Preloader />
+        <MoviesCardList />
+        <MoviesCard />
+        <Footer />
       </div>
     </>
   );

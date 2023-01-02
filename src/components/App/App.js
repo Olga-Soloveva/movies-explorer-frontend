@@ -1,27 +1,42 @@
 import "./App.css";
+
+import { Switch, Route } from "react-router-dom";
+
 import Main from "../Main/Main";
 import Movies from "../Movies/Movies";
 import SavedMovies from "../SavedMovies/SavedMovies";
 import Register from "../Register/Register";
 import Login from "../Login/Login";
 import Profile from "../Profile/Profile";
-import Header from "../Header/Header";
-import Navigation from "../Navigation/Navigation";
-import Footer from "../Footer/Footer";
+import PageNotFound from "../PageNotFound/PageNotFound";
 
 function App() {
   return (
     <div className="page">
       <h1>Начало проекта</h1>
-      <Header/>
-      <Navigation/>
-      <Main/>
-      <Movies/>
-      <SavedMovies/>
-      <Footer/>
-      <Register/>
-      <Login/>
-      <Profile/>
+      <Switch>
+        <Route exact path="/">
+          <Main />
+        </Route>
+        <Route path="/movies">
+          <Movies />
+        </Route>
+        <Route path="/saved-movies">
+          <SavedMovies />
+        </Route>
+        <Route path="/profile">
+          <Profile />
+        </Route>
+        <Route path="/signup">
+          <Register />
+        </Route>
+        <Route path="/signin">
+          <Login />
+        </Route>
+        <Route path="*">
+          <PageNotFound />
+        </Route>
+      </Switch>
     </div>
   );
 }
