@@ -1,5 +1,8 @@
 .page {
   min-height: 100vh;
+  max-width: 1280px;
+  min-width: 320px;
+  margin: 0 auto;
   box-sizing: border-box;
   background-color: #202020;
   color: #fff;
@@ -9,22 +12,22 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
-.page__content {
+/* .page__content {
   max-width: 1280px;
   min-width: 320px;
   margin: 0 auto;
   padding: 0 70px;
-  /* border: 1px red solid */
+  border: 1px red solid
 }
 
 @media screen and (max-width: 950px) {
-  .page {
-    padding: 0;
+  .page__content {
+    padding: 0 30px;
   }
 }
 
 @media screen and (max-width: 650px) {
-  .page {
-    padding: 0;
+  .page__content {
+    padding: 0 30px;
   }
-}
+} */

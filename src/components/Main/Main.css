@@ -3,10 +3,15 @@
   flex-direction: column;
 }
 
+.landing__content {
+  padding: 0 70px;
+}
+
 .landing__title {
   font-size: 22px;
   line-height: 27px;
   font-weight: 400;
+  letter-spacing: -0.04em;
   margin: 0;
 }
 
@@ -20,4 +25,31 @@
   line-height: 20px;
   font-weight: 400;
   margin: 0;
+}
+
+@media screen and (max-width: 950px) {
+  .landing__content {
+    padding: 0 50px;
+  }
+
+  .landing__paragraph {
+    font-size: 12px;
+    line-height: 18px;
+  }
+}
+
+@media screen and (max-width: 650px) {
+  .landing__content {
+    padding: 0 18px;
+  }
+
+  .landing__title {
+    font-size: 18px;
+    line-height: 22px;
+  }
+
+  .landing__paragraph {
+    font-size: 11px;
+    line-height: 16px;
+  }
 }
