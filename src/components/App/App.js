@@ -13,7 +13,6 @@ import PageNotFound from "../PageNotFound/PageNotFound";
 function App() {
   return (
     <div className="page">
-      <h1>Начало проекта</h1>
       <Switch>
         <Route exact path="/">
           <Main />

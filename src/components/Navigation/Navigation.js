@@ -1,8 +1,9 @@
 import "./Navigation.css"
+import { Route, Link } from "react-router-dom";
 
 function Navigation() {
   return (
-    <p className="paragraph">Компонент Navigation</p>
+    <div></div>
   );
 }
 

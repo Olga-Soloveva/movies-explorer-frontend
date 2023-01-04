@@ -1,0 +1,71 @@
+.techs {
+  box-sizing: border-box;
+  padding: 100px 0;
+  background-color: #272727;
+}
+
+.techs__content {
+  box-sizing: border-box;
+  width: 100%;
+}
+
+.techs__title {
+  color: #fff;
+  margin-bottom: 33px;
+}
+
+.techs__decor-line {
+  background-color: #dadada;
+  margin-bottom: 80px;
+}
+
+.techs__text-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 26px;
+  margin-bottom: 100px;
+}
+
+.techs__subtitle {
+  max-width: 400px;
+  font-weight: 400;
+  font-size: 50px;
+  line-height: 58px;
+  letter-spacing: -0.04em;
+  text-align: center;
+  margin: 0;
+}
+
+.techs__paragraph {
+  max-width: 460px;
+  color: #fff;
+  letter-spacing: -0.04em;
+  text-align: center;
+}
+
+.techs__list-container {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  list-style: none;
+  padding-left: 0;
+  margin: 0;
+}
+
+.techs__technology {
+  width: 90px;
+  height: 60px;
+  background-color: #303030;
+  border-radius: 10px;
+  display: flex;
+}
+
+.techs__technology-name {
+  margin: auto;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 17px;
+  letter-spacing: -0.04em;
+}
