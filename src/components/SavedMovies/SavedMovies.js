@@ -1,6 +1,5 @@
 import "./SavedMovies.css";
 import Header from "../Header/Header";
-import Navigation from "../Navigation/Navigation";
 import Footer from "../Footer/Footer";
 import MoviesCardList from "../MoviesCardList/MoviesCardList";
 import MoviesCard from "../MoviesCard/MoviesCard";
@@ -8,10 +7,8 @@ import MoviesCard from "../MoviesCard/MoviesCard";
 function SavedMovies() {
   return (
     <>
-      <p className="title">Компонент SavedMovies</p>
       <div className="movies">
-        <Header />
-        <Navigation />
+        <Header isLoggedIn={true} />
         <MoviesCardList />
         <MoviesCard />
         <Footer />

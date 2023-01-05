@@ -10,7 +10,7 @@ import AboutMe from "../AboutMe/AboutMe";
 function Main() {
   return (
     <>
-      <Header />
+      <Header isLoggedIn={false}/>
       <main className="landing">
         <Promo />
         <NavTab />
