@@ -7,7 +7,6 @@ import SearchForm from "../SearchForm/SearchForm";
 import FilterCheckbox from "../FilterCheckbox/FilterCheckbox";
 import Preloader from "../Preloader/Preloader";
 import MoviesCardList from "../MoviesCardList/MoviesCardList";
-import MoviesCard from "../MoviesCard/MoviesCard";
 
 function Movies() {
   const [isAwaitApiQuery, setIsAwaitApiQuery] = useState(false);
@@ -22,7 +21,6 @@ function Movies() {
         </div>
         {isAwaitApiQuery && <Preloader />}
         <MoviesCardList />
-        <MoviesCard />
       </div>
       <Footer />
     </>
