@@ -1,3 +1,5 @@
+import React, { useState } from "react";
+
 import "./Movies.css";
 import Header from "../Header/Header";
 import Footer from "../Footer/Footer";
@@ -8,17 +10,21 @@ import MoviesCardList from "../MoviesCardList/MoviesCardList";
 import MoviesCard from "../MoviesCard/MoviesCard";
 
 function Movies() {
+  const [isAwaitApiQuery, setIsAwaitApiQuery] = useState(false);
+
   return (
     <>
-      <div className="movies">
-        <Header isLoggedIn={true}/>
-        <SearchForm />
-        <FilterCheckbox />
-        <Preloader />
+      <Header isLoggedIn={true} />
+      <div className="movies-page">
+        <div className="movies-page__search-container">
+          <SearchForm formName={"movies"} inputName={"searchMovies"} />
+          <FilterCheckbox filterName={"movies"} checkboxName={"shortMovies"} />
+        </div>
+        {isAwaitApiQuery && <Preloader />}
         <MoviesCardList />
         <MoviesCard />
-        <Footer />
       </div>
+      <Footer />
     </>
   );
 }

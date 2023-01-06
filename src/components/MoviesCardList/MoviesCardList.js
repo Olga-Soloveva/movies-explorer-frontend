@@ -2,7 +2,7 @@ import "./MoviesCardList.css"
 
 function MoviesCardList() {
   return (
-    <p>Компонент MoviesCardList</p>
+    <p className="border">Компонент MoviesCardList</p>
   );
 }
 
