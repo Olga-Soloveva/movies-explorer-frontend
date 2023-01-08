@@ -9,13 +9,13 @@ function SavedMovies() {
   return (
     <>
       <Header isLoggedIn={true} />
-      <div className="movies-page">
-        <div className="movies-page__search-container">
+      <main className="movies-page">
+        <section className="movies-page__search-container">
           <SearchForm formName={"savedMovies"} inputName={"searchSavedMovies"} />
           <FilterCheckbox filterName={"savedMovies"} checkboxName={"shortSavedMovies"} />
-        </div>
+        </section>
         <MoviesCardList />
-      </div>
+      </main>
       <Footer />
     </>
   );

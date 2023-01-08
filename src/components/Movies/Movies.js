@@ -14,14 +14,14 @@ function Movies() {
   return (
     <>
       <Header isLoggedIn={true} />
-      <div className="movies-page">
-        <div className="movies-page__search-container">
+      <main className="movies-page">
+        <section className="movies-page__search-container">
           <SearchForm formName={"movies"} inputName={"searchMovies"} />
           <FilterCheckbox filterName={"movies"} checkboxName={"shortMovies"} />
-        </div>
+        </section>
         {isAwaitApiQuery && <Preloader />}
         <MoviesCardList />
-      </div>
+      </main>
       <Footer />
     </>
   );
