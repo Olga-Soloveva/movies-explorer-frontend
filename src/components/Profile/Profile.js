@@ -7,7 +7,7 @@ function Profile() {
   return (
     <>
       <Header isLoggedIn={true} />
-      <section className="profile">
+      <main className="profile">
         <h2 className="profile__title">Привет, Ольга!</h2>
         <form className="profile__form" noValidate>
           <fieldset className="profile__fieldset">
@@ -51,7 +51,7 @@ function Profile() {
         <Link to="/" className="profile__link">
           Выйти из аккаунта
         </Link>
-      </section>
+      </main>
     </>
   );
 }
