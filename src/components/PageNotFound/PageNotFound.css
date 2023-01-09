@@ -71,6 +71,7 @@
 
   .page-not-found__content {
     padding-top: 15px;
+    height: calc(100% - 15px);
     gap: 10px;
   }
 
