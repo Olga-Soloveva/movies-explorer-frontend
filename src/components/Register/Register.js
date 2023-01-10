@@ -9,6 +9,7 @@ function Register() {
         buttonText="Зарегистрироваться"
         descriptionText="Уже зарегистрированы?"
         linkText="Войти"
+        link="/signin"
       >
         <div className="form__field">
           <label className="form__label" for="name">

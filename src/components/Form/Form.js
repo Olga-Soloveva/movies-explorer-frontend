@@ -2,7 +2,7 @@ import "./Form.css";
 import logo from "../../images/logo.svg";
 import { Link } from "react-router-dom";
 
-function Form({ title, buttonText, descriptionText, linkText, children }) {
+function Form({ title, buttonText, descriptionText, linkText, link, children }) {
   return (
     <section className="form">
       <div className="form__top-conteiner">
@@ -29,7 +29,7 @@ function Form({ title, buttonText, descriptionText, linkText, children }) {
         </Link>
         <div className="form__bottom-text">
           <p className="form__link-description">{descriptionText}</p>
-          <Link to="/signin" className="form__link">
+          <Link to={link} className="form__link">
             {linkText}
           </Link>
         </div>

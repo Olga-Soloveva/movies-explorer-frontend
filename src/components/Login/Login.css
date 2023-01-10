@@ -1,0 +1,17 @@
+.login {
+    min-height: 100vh;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  @media screen and (max-width: 650px) {
+    .login {
+      height: 100vh;
+      min-height: 480px;
+      padding: 56px 0 30px;
+      box-sizing: border-box;
+    }
+  }
+  
