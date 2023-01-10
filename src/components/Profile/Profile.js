@@ -1,5 +1,6 @@
 import "./Profile.css";
 import Header from "../Header/Header";
+import PopupErrorApi from "../PopupErrorApi/PopupErrorApi";
 
 import { Link } from "react-router-dom";
 
@@ -51,6 +52,7 @@ function Profile() {
         <Link to="/" className="profile__link">
           Выйти из аккаунта
         </Link>
+        <PopupErrorApi textError={"Текст ошибки profile"} />
       </main>
     </>
   );

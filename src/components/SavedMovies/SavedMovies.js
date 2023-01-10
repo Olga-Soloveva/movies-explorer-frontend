@@ -4,6 +4,7 @@ import Footer from "../Footer/Footer";
 import SearchForm from "../SearchForm/SearchForm";
 import FilterCheckbox from "../FilterCheckbox/FilterCheckbox";
 import MoviesCardList from "../MoviesCardList/MoviesCardList";
+import PopupErrorApi from "../PopupErrorApi/PopupErrorApi";
 
 function SavedMovies() {
   return (
@@ -11,10 +12,17 @@ function SavedMovies() {
       <Header isLoggedIn={true} />
       <main className="movies-page">
         <section className="movies-page__search-container">
-          <SearchForm formName={"savedMovies"} inputName={"searchSavedMovies"} />
-          <FilterCheckbox filterName={"savedMovies"} checkboxName={"shortSavedMovies"} />
+          <SearchForm
+            formName={"savedMovies"}
+            inputName={"searchSavedMovies"}
+          />
+          <FilterCheckbox
+            filterName={"savedMovies"}
+            checkboxName={"shortSavedMovies"}
+          />
         </section>
         <MoviesCardList />
+        <PopupErrorApi textError={"Текст ошибки savedmovies"} />
       </main>
       <Footer />
     </>

@@ -7,6 +7,7 @@ import SearchForm from "../SearchForm/SearchForm";
 import FilterCheckbox from "../FilterCheckbox/FilterCheckbox";
 import Preloader from "../Preloader/Preloader";
 import MoviesCardList from "../MoviesCardList/MoviesCardList";
+import PopupErrorApi from "../PopupErrorApi/PopupErrorApi";
 
 function Movies() {
   const [isAwaitApiQuery, setIsAwaitApiQuery] = useState(false);
@@ -21,6 +22,7 @@ function Movies() {
         </section>
         {isAwaitApiQuery && <Preloader />}
         <MoviesCardList />
+        <PopupErrorApi textError={"Текст ошибки movies"} />
       </main>
       <Footer />
     </>

@@ -1,5 +1,6 @@
 import "./Register.css";
 import Form from "../Form/Form";
+import PopupErrorApi from "../PopupErrorApi/PopupErrorApi";
 
 function Register() {
   return (
@@ -62,6 +63,7 @@ function Register() {
           </span>
         </div>
       </Form>
+      <PopupErrorApi textError={"Текст ошибки register"}/>
     </main>
   );
 }

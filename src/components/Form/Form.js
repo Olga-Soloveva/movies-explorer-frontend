@@ -2,11 +2,20 @@ import "./Form.css";
 import logo from "../../images/logo.svg";
 import { Link } from "react-router-dom";
 
-function Form({ title, buttonText, descriptionText, linkText, link, children }) {
+function Form({
+  title,
+  buttonText,
+  descriptionText,
+  linkText,
+  link,
+  children,
+}) {
   return (
     <section className="form">
       <div className="form__top-conteiner">
-        <img className="form__logo" src={logo} alt="Логотип" />
+        <Link className="form__logo-container" to="/">
+          <img className="form__logo" src={logo} alt="Логотип" />
+        </Link>
         <p className="form__title">{title}</p>
       </div>
       <form

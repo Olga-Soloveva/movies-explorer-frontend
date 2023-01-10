@@ -103,6 +103,7 @@ function MoviesCardList() {
       >
         Ещё
       </button>
+      {/* <div className="card-list__no-result">Ничего не найдено</div> */}
     </section>
   );
 }

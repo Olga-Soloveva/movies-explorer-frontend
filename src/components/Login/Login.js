@@ -1,5 +1,6 @@
 import "./Login.css";
 import Form from "../Form/Form";
+import PopupErrorApi from "../PopupErrorApi/PopupErrorApi";
 
 function Login() {
   return (
@@ -47,6 +48,7 @@ function Login() {
           </span>
         </div>
       </Form>
+      <PopupErrorApi textError={"Текст ошибки login"}/>
     </main>
   );
 }
