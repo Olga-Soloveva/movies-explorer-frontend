@@ -30,7 +30,7 @@
 }
 
 .search-form__input {
-  width: 100%;
+  /* width: 100%; */
   height: 34px;
   box-sizing: border-box;
   border: 0;
@@ -42,10 +42,13 @@
   outline: none;
   color: #8b8b8b;
   padding: 0;
+  margin: 0 15px;
 }
 
 .search-form__input:focus {
   outline-color: transparent;
+  background-color: #272727;
+  color: #4285f4;
 }
 
 .search-form__input::placeholder {
@@ -82,6 +85,7 @@
   }
 
   .search-form__input {
+    margin: 0 10px 0 0;
     font-size: 18px;
     line-height: 22px;
     text-align: left;

@@ -6,7 +6,7 @@ import Navigation from "../Navigation/Navigation";
 
 function Header({ isLoggedIn }) {
   return (
-    <header className={`header ${!isLoggedIn && "header_colored"}`}>
+    <header className={`header ${!isLoggedIn ? "header_colored" : ""}`}>
       <Link className="header__logo-container" to="/">
         <img className="header__logo" src={logo} alt="Логотип" />
       </Link>
@@ -16,14 +16,8 @@ function Header({ isLoggedIn }) {
             <Link to="/signup" className="header__link">
               Регистрация
             </Link>
-            <Link to="/signin" className="header__button-container">
-              <button
-                className="header__button"
-                type="button"
-                aria-label="Войти на сайт"
-              >
-                Войти
-              </button>
+            <Link to="/signin" className="header__link-button">
+              Войти
             </Link>
           </div>
         </Route>

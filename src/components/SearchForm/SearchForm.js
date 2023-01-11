@@ -2,7 +2,7 @@ import "./SearchForm.css";
 
 function SearchForm({ formName, inputName }) {
   return (
-    <form className="search-form" name={formName} id={formName} noValidate>
+    <form className="search-form" name={formName} id={formName}>
       <label className="search-form__label" for={inputName} />
       <input
         className="search-form__input"

@@ -2,15 +2,13 @@ import "./FilterCheckbox.css";
 
 function FilterCheckbox({ filterName, checkboxName }) {
   return (
-    <form className="filter" name={filterName} id={filterName} noValidate>
+    <form className="filter" name={filterName} id={filterName} >
       <label className="filter__label">
         <input
           className="filter__checkbox"
           name={checkboxName}
           id={checkboxName}
           type="checkbox"
-          autoComplete="off"
-          placeholder="Фильм"
           required
         />
         <span className="filter__pseudo-checkbox" />

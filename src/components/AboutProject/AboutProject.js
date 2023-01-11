@@ -27,13 +27,13 @@ function AboutProject() {
         </div>
         <div className="about-project__infographics">
           <div className="about-project__infographics-column">
-            <div className="about-project__row-filled about-project__row-fill_color_colourful">
+            <div className="about-project__row-filled about-project__row-filled_color_colourful">
               <p className="about-project__row-text">1 неделя</p>
             </div>
             <p className="about-project__row-description">Back-end</p>
           </div>
           <div className="about-project__infographics-column">
-            <div className="about-project__row-filled about-project__row-fill_color_grayscale">
+            <div className="about-project__row-filled about-project__row-filled_color_grayscale">
             <p className="about-project__row-text">4 недели</p>
             </div>
             <p className="about-project__row-description">Front-end</p>

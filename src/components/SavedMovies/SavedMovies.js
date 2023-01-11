@@ -17,7 +17,7 @@ function SavedMovies() {
             inputName={"searchSavedMovies"}
           />
           <FilterCheckbox
-            filterName={"savedMovies"}
+            filterName={"savedMoviesFilter"}
             checkboxName={"shortSavedMovies"}
           />
         </section>

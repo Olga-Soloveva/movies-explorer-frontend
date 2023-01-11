@@ -10,7 +10,7 @@ function Profile() {
       <Header isLoggedIn={true} />
       <main className="profile">
         <h2 className="profile__title">Привет, Ольга!</h2>
-        <form className="profile__form" noValidate>
+        <form className="profile__form" >
           <fieldset className="profile__fieldset">
             <div className="profile__form-item">
               <label className="profile__form-label" for="profileName">

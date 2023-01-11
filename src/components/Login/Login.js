@@ -12,13 +12,11 @@ function Login() {
         linkText="Регистрация"
         link="/signup"
       >
-        
         <div className="form__field">
           <label className="form__label" for="email">
             E-mail
           </label>
           <input
-            value="pochta@yandex.ru|"
             className="form__input"
             type="email"
             id="email"
@@ -30,11 +28,10 @@ function Login() {
           <span className="form__error ">Что-то пошло не так...</span>
         </div>
         <div className="form__field">
-          <label className="form__label" for="name">
+          <label className="form__label" for="password">
             Пароль
           </label>
           <input
-            value="vdsvsvsdvs"
             className="form__input form__input_novalidate"
             type="password"
             id="password"
@@ -48,7 +45,7 @@ function Login() {
           </span>
         </div>
       </Form>
-      <PopupErrorApi textError={"Текст ошибки login"}/>
+      <PopupErrorApi textError={"Текст ошибки login"} />
     </main>
   );
 }

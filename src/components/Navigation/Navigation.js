@@ -44,7 +44,7 @@ function Navigation() {
         />
         <div
           className={`navigation__overlay ${
-            isBurgerMenuOpen && "navigation__overlay_visible"
+            isBurgerMenuOpen ? "navigation__overlay_visible" : ""
           }`}
         >
           <div className="navigation__burger-menu-container">

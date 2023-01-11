@@ -75,6 +75,10 @@
   color: #ee3465;
 }
 
+.form__input:invalid {
+  color: #ee3465;
+}
+
 .form__input:focus {
   outline-color: transparent;
   border-bottom: 1px solid #4285f4;

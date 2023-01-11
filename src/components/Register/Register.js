@@ -17,7 +17,6 @@ function Register() {
             Имя
           </label>
           <input
-            value="Ольга"
             className="form__input"
             type="text"
             id="name"
@@ -33,7 +32,6 @@ function Register() {
             E-mail
           </label>
           <input
-            value="pochta@yandex.ru|"
             className="form__input"
             type="email"
             id="email"
@@ -45,11 +43,10 @@ function Register() {
           <span className="form__error ">Что-то пошло не так...</span>
         </div>
         <div className="form__field">
-          <label className="form__label" for="name">
+          <label className="form__label" for="password">
             Пароль
           </label>
           <input
-            value="vdsvsvsdvs"
             className="form__input form__input_novalidate"
             type="password"
             id="password"
@@ -63,7 +60,7 @@ function Register() {
           </span>
         </div>
       </Form>
-      <PopupErrorApi textError={"Текст ошибки register"}/>
+      <PopupErrorApi textError={"Текст ошибки register"} />
     </main>
   );
 }

@@ -18,7 +18,7 @@ function Movies() {
       <main className="movies-page">
         <section className="movies-page__search-container">
           <SearchForm formName={"movies"} inputName={"searchMovies"} />
-          <FilterCheckbox filterName={"movies"} checkboxName={"shortMovies"} />
+          <FilterCheckbox filterName={"moviesFilter"} checkboxName={"shortMovies"} />
         </section>
         {isAwaitApiQuery && <Preloader />}
         <MoviesCardList />
