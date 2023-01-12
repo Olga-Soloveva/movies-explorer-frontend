@@ -16,10 +16,10 @@ function Movies() {
     <>
       <Header isLoggedIn={true} />
       <main className="movies-page">
-        <section className="movies-page__search-container">
+        <div className="movies-page__search-container">
           <SearchForm formName={"movies"} inputName={"searchMovies"} />
           <FilterCheckbox filterName={"moviesFilter"} checkboxName={"shortMovies"} />
-        </section>
+        </div>
         {isAwaitApiQuery && <Preloader />}
         <MoviesCardList />
         <PopupErrorApi textError={"Текст ошибки movies"} />

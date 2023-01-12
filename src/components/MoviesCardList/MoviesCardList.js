@@ -3,7 +3,7 @@ import MoviesCard from "../MoviesCard/MoviesCard";
 
 function MoviesCardList() {
   return (
-    <section className="card-list">
+    <section className="card-list" aria-label="Найденные фильмы">
       <div className="card-list__content">
         <MoviesCard
           name={"Бег это свобода"}

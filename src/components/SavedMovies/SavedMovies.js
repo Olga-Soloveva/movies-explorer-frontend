@@ -11,7 +11,7 @@ function SavedMovies() {
     <>
       <Header isLoggedIn={true} />
       <main className="movies-page">
-        <section className="movies-page__search-container">
+        <div className="movies-page__search-container">
           <SearchForm
             formName={"savedMovies"}
             inputName={"searchSavedMovies"}
@@ -20,7 +20,7 @@ function SavedMovies() {
             filterName={"savedMoviesFilter"}
             checkboxName={"shortSavedMovies"}
           />
-        </section>
+        </div>
         <MoviesCardList />
         <PopupErrorApi textError={"Текст ошибки savedmovies"} />
       </main>
