@@ -1,0 +1,56 @@
+.filter {
+  width: 100%;
+  display: flex;
+}
+
+.filter__label {
+  width: 100%;
+  display: flex;
+  box-sizing: border-box;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+}
+
+.filter__label-text {
+  box-sizing: border-box;
+  display: block;
+  font-size: 14px;
+  line-height: 18px;
+  font-weight: 400;
+}
+
+.filter__checkbox {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(0 0 0 0);
+}
+
+.filter__pseudo-checkbox {
+  display: inline-block;
+  vertical-align: middle;
+  width: 36px;
+  height: 20px;
+  cursor: pointer;
+  transition: opacity 0.3s ease-in-out;
+  background-image: url(../../images/tumbler-on.svg);
+  background-repeat: no-repeat;
+  background-position: 50% 50%;
+  background-size: 100% 100%;
+}
+
+.filter__checkbox:checked + .filter__pseudo-checkbox {
+  background-image: url(../../images/tumbler-off.svg);
+}
+
+@media screen and (max-width: 650px) {
+  .filter__label {
+    gap: 13px;
+  }
+
+  .filter__label-text {
+    font-size: 11px;
+  }
+}
