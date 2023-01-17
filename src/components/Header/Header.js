@@ -4,14 +4,30 @@ import { Route, Link, Switch } from "react-router-dom";
 
 import Navigation from "../Navigation/Navigation";
 
-function Header({ isLoggedIn }) {
+function Header({ loggedIn, withColorFill }) {
   return (
-    <header className={`header ${!isLoggedIn ? "header_colored" : ""}`}>
+    <header className={`header ${withColorFill ? "header_colored" : ""}`}>
       <Link className="header__logo-container" to="/">
         <img className="header__logo" src={logo} alt="Логотип" />
       </Link>
-      <Switch>
+
+      {/* {isAwaitApiQuery && <Preloader />} */}
+      {loggedIn ? (
+        <Navigation />
+      ) : (
+        <div className="header__container">
+          <Link to="/signup" className="header__link">
+            Регистрация
+          </Link>
+          <Link to="/signin" className="header__link-button">
+            Войти
+          </Link>
+        </div>
+      )}
+
+      {/* <Switch>
         <Route exact path="/">
+
           <div className="header__container">
             <Link to="/signup" className="header__link">
               Регистрация
@@ -24,7 +40,7 @@ function Header({ isLoggedIn }) {
         <Route>
           <Navigation />
         </Route>
-      </Switch>
+      </Switch> */}
     </header>
   );
 }

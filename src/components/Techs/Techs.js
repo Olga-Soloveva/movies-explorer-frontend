@@ -14,37 +14,37 @@ function Techs() {
       </div>
       <ul className="techs__list-container">
         <li className="techs__technology">
-          <p div className="techs__technology-name">
+          <p className="techs__technology-name">
             HTML
           </p>
         </li>
         <li className="techs__technology">
-          <p div className="techs__technology-name">
+          <p className="techs__technology-name">
             CSS
           </p>
         </li>
         <li className="techs__technology">
-          <p div className="techs__technology-name">
+          <p className="techs__technology-name">
             JS
           </p>
         </li>
         <li className="techs__technology">
-          <p div className="techs__technology-name">
+          <p className="techs__technology-name">
             React
           </p>
         </li>
         <li className="techs__technology">
-          <p div className="techs__technology-name">
+          <p className="techs__technology-name">
             Git
           </p>
         </li>
         <li className="techs__technology">
-          <p div className="techs__technology-name">
+          <p className="techs__technology-name">
             Express.js
           </p>
         </li>
         <li className="techs__technology">
-          <p div className="techs__technology-name">
+          <p className="techs__technology-name">
             mongoDB
           </p>
         </li>

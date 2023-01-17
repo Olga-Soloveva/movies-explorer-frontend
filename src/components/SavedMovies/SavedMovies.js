@@ -6,10 +6,10 @@ import FilterCheckbox from "../FilterCheckbox/FilterCheckbox";
 import MoviesCardList from "../MoviesCardList/MoviesCardList";
 import PopupErrorApi from "../PopupErrorApi/PopupErrorApi";
 
-function SavedMovies() {
+function SavedMovies({loggedIn}) {
   return (
     <>
-      <Header isLoggedIn={true} />
+      <Header loggedIn={loggedIn} withColorFill={false}/>
       <main className="movies-page">
         <div className="movies-page__search-container">
           <SearchForm

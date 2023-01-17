@@ -28,12 +28,12 @@ function Navigation() {
             </Link>
           </li>
         </ul>
-        <div className="navigation__proflie-link">
-          <Link to="/profile" className="navigation__link">
-            Аккаунт
-          </Link>
-          <button className="navigation__proflie-button" />
-        </div>
+        <Link to="/profile" className="navigation__link-container">
+          <div className="navigation__proflie-link">
+            <span className="navigation__link">Аккаунт</span>
+            <button className="navigation__proflie-button" />
+          </div>
+        </Link>
       </div>
       <div className="navigation__content navigation__content_type_burger-menu">
         <button
@@ -84,12 +84,12 @@ function Navigation() {
                 </NavLink>
               </li>
             </ul>
-            <div className="navigation__burger-proflie-container">
-              <Link to="/profile" className="navigation__burger-proflie-link">
-                Аккаунт
-              </Link>
-              <button className="navigation__burger-proflie-button" />
-            </div>
+            <Link to="/profile" className="navigation__burger-link-container">
+              <div className="navigation__burger-proflie-container">
+                <span className="navigation__burger-proflie-link">Аккаунт</span>
+                <div className="navigation__burger-proflie-button" />
+              </div>
+            </Link>
           </div>
         </div>
       </div>

@@ -7,15 +7,15 @@ import AboutProject from "../AboutProject/AboutProject";
 import Techs from "../Techs/Techs";
 import AboutMe from "../AboutMe/AboutMe";
 
-function Main() {
+function Main({ loggedIn }) {
   return (
     <>
-      <Header isLoggedIn={false}/>
+      <Header loggedIn={loggedIn} withColorFill={true} />
       <main className="landing">
         <Promo />
         <NavTab />
         <AboutProject />
-         <Techs />
+        <Techs />
         <AboutMe />
       </main>
       <Footer />

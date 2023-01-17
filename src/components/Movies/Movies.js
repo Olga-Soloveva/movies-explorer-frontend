@@ -9,12 +9,12 @@ import Preloader from "../Preloader/Preloader";
 import MoviesCardList from "../MoviesCardList/MoviesCardList";
 import PopupErrorApi from "../PopupErrorApi/PopupErrorApi";
 
-function Movies() {
+function Movies({loggedIn}) {
   const [isAwaitApiQuery, setIsAwaitApiQuery] = useState(false);
 
   return (
     <>
-      <Header isLoggedIn={true} />
+      <Header loggedIn={loggedIn} withColorFill={false}/>
       <main className="movies-page">
         <div className="movies-page__search-container">
           <SearchForm formName={"movies"} inputName={"searchMovies"} />

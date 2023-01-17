@@ -1,23 +1,71 @@
 import "./Register.css";
+
+import React, { useState, useEffect } from "react";
+
 import Form from "../Form/Form";
 import PopupErrorApi from "../PopupErrorApi/PopupErrorApi";
 
-function Register() {
+function Register({ onRegister }) {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [name, setName] = useState("");
+  const [isValidEmail, setIsValidEmail] = useState(false);
+  const [isValidPassword, setIsValidPassword] = useState(false);
+  const [isValidName, setIsValidName] = useState(false);
+  const [isValidForm, setIsValidForm] = useState(false);
+  const [errorEmailMessage, setErrorEmailMessage] = useState("");
+  const [errorPasswordMessage, setErrorPasswordMessage] = useState("");
+  const [errorNameMessage, setErrorNameMessage] = useState("");
+  
+  function handleChangeEmail(evt) {
+    setEmail(evt.target.value);
+    setErrorEmailMessage(evt.target.validationMessage);
+    setIsValidEmail(evt.target.validity.valid);
+  }
+
+  function handleChangePassword(evt) {
+    setPassword(evt.target.value);
+    setErrorPasswordMessage(evt.target.validationMessage);
+    setIsValidPassword(evt.target.validity.valid);
+  }
+
+  function handleChangeName(evt) {
+    setName(evt.target.value);
+    setErrorNameMessage(evt.target.validationMessage);
+    setIsValidName(evt.target.validity.valid);
+  }
+
+  function handleSubmit(evt) {
+    evt.preventDefault();
+    onRegister({ email, password, name })
+  }
+
+  useEffect(() => {
+    setIsValidForm(isValidEmail && isValidPassword && isValidName);
+  }, [isValidEmail, isValidPassword, isValidName]);
+
   return (
     <main className="register">
       <Form
+        idForm="register"
         title="Добро пожаловать!"
         buttonText="Зарегистрироваться"
         descriptionText="Уже зарегистрированы?"
         linkText="Войти"
+        handleSubmit={handleSubmit}
+        isValidForm={isValidForm}
         link="/signin"
       >
         <div className="form__field">
-          <label className="form__label" for="name">
+          <label className="form__label" htmlFor="name">
             Имя
           </label>
           <input
-            className="form__input"
+            value={name}
+            onChange={handleChangeName}
+            className={`form__input ${
+              !isValidName ? "form__input_novalidate" : ""
+            }`}
             type="text"
             id="name"
             name="name"
@@ -25,14 +73,24 @@ function Register() {
             placeholder=""
             required
           />
-          <span className="form__error">Что-то пошло не так...</span>
+          <span
+            className={`form__error ${
+              !isValidName ? "form__error_visible" : ""
+            }`}
+          >
+            {errorNameMessage}
+          </span>
         </div>
         <div className="form__field">
-          <label className="form__label" for="email">
+          <label className="form__label" htmlFor="email">
             E-mail
           </label>
           <input
-            className="form__input"
+            value={email}
+            onChange={handleChangeEmail}
+            className={`form__input ${
+              !isValidEmail ? "form__input_novalidate" : ""
+            }`}
             type="email"
             id="email"
             name="email"
@@ -40,23 +98,38 @@ function Register() {
             placeholder=""
             required
           />
-          <span className="form__error ">Что-то пошло не так...</span>
+          <span
+            className={`form__error ${
+              !isValidEmail ? "form__error_visible" : ""
+            }`}
+          >
+            {errorEmailMessage}
+          </span>
         </div>
         <div className="form__field">
-          <label className="form__label" for="password">
+          <label className="form__label" htmlFor="password">
             Пароль
           </label>
           <input
-            className="form__input form__input_novalidate"
+            value={password}
+            onChange={handleChangePassword}
+            className={`form__input ${
+              !isValidPassword ? "form__input_novalidate" : ""
+            }`}
             type="password"
             id="password"
             name="password"
             autoComplete="off"
             placeholder=""
             required
+            minLength="6"
           />
-          <span className="form__error form__error_visible">
-            Что-то пошло не так...
+          <span
+            className={`form__error ${
+              !isValidPassword ? "form__error_visible" : ""
+            }`}
+          >
+            {errorPasswordMessage}
           </span>
         </div>
       </Form>
