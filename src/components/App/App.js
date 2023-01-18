@@ -1,6 +1,6 @@
 import "./App.css";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { Switch, Route, useHistory } from "react-router-dom";
 
 import ProtectedRoute from "../ProtectedRoute/ProtectedRoute";
@@ -18,7 +18,7 @@ import { CurrentUserContext } from "../../contexts/CurrentUserContext";
 function App() {
   const history = useHistory();
   const [loggedIn, setLoggedIn] = useState(false);
-  const [errorApiText, serErrorApiText] = useState("");
+  const [noticeResApi, setNoticeResApi]= useState("");
   const [currentUser, setCurrentUser] = useState({
     id: "",
     name: "",
@@ -42,6 +42,7 @@ function App() {
           console.log(err);
         });
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [loggedIn]);
 
   useEffect(() => {
@@ -76,7 +77,7 @@ function App() {
         }
       })
       .catch((err) => {
-        serErrorApiText(err.message)
+        setNoticeResApi(err.message);
       });
   };
 
@@ -94,19 +95,32 @@ function App() {
         }
       })
       .catch((err) => {
-        serErrorApiText(err.message)
+        setNoticeResApi(err.message);
       });
   };
 
-  function onSignOut() {
+  const onSignOut = () => {
     history.push("/");
     localStorage.removeItem("jwt");
     setLoggedIn(false);
-  }
+  };
 
-  function clearErrorApi() {
-    serErrorApiText("")
-  }
+  const handleUpdateUser = ({ name, email }) => {
+    const token = localStorage.getItem("jwt");
+    mainApiOption
+      .editUserInfo({ name, email, token })
+      .then((res) => {
+        setCurrentUser({ ...currentUser, name: res.name, email: res.email });
+        setNoticeResApi("Данные профиля изменены");
+      })
+      .catch((err) => {
+        setNoticeResApi(err.message);
+      })
+  };
+
+  const clearNoticeResApi = useCallback(() => {
+    setNoticeResApi("");
+  }, []);
 
   return (
     <div className="page">
@@ -131,22 +145,25 @@ function App() {
             loggedIn={loggedIn}
             component={Profile}
             onSignOut={onSignOut}
+            onUpdateUser={handleUpdateUser}
+            noticeResApi={noticeResApi}
+            clearNoticeResApi={clearNoticeResApi}
           />
           <ProtectedRoute
             path="/signup"
             loggedIn={!loggedIn}
             component={Register}
             onRegister={onRegister}
-            errorApiText={errorApiText}
-            clearErrorApi={clearErrorApi}
+            noticeResApi={noticeResApi}
+            clearNoticeResApi={clearNoticeResApi}
           />
           <ProtectedRoute
             path="/signin"
             loggedIn={!loggedIn}
             component={Login}
             onLogin={onLogin}
-            errorApiText={errorApiText}
-            clearErrorApi={clearErrorApi}
+            noticeResApi={noticeResApi}
+            clearNoticeResApi={clearNoticeResApi}
           />
           <Route path="*">
             <PageNotFound />

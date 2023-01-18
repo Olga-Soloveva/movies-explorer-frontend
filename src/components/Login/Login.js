@@ -5,7 +5,7 @@ import React, { useState, useEffect } from "react";
 import Form from "../Form/Form";
 import PopupErrorApi from "../PopupErrorApi/PopupErrorApi";
 
-function Login({ onLogin, errorApiText, clearErrorApi }) {
+function Login({ onLogin, noticeResApi, clearNoticeResApi }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isValidEmail, setIsValidEmail] = useState(false);
@@ -38,9 +38,10 @@ function Login({ onLogin, errorApiText, clearErrorApi }) {
     setIsValidForm(isValidEmail && isValidPassword);
   }, [isValidEmail, isValidPassword]);
 
+
   useEffect(() => {
-    clearErrorApi()
-  }, []);
+    clearNoticeResApi()
+  }, [clearNoticeResApi]);
 
   return (
     <main className="login">
@@ -52,7 +53,7 @@ function Login({ onLogin, errorApiText, clearErrorApi }) {
         linkText="Регистрация"
         handleSubmit={handleSubmit}
         isValidForm={isValidForm}
-        errorApiText={errorApiText}
+        noticeResApi={noticeResApi}
         link="/signup"
       >
         <div className="form__field">

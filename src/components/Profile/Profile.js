@@ -1,32 +1,73 @@
 import "./Profile.css";
-import React, { useState, useContext } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import Header from "../Header/Header";
 import PopupErrorApi from "../PopupErrorApi/PopupErrorApi";
 import { CurrentUserContext } from "../../contexts/CurrentUserContext";
 
 import { Link } from "react-router-dom";
 
-function Profile({ onSignOut, loggedIn }) {
-  const [currentUser, setCurrentUser] = useContext(CurrentUserContext);
+function Profile({ loggedIn, onSignOut, onUpdateUser, noticeResApi, clearNoticeResApi }) {
+  const [currentUser] = useContext(CurrentUserContext);
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [isValidName, setIsValidName] = useState(true);
+  const [isValidEmail, setIsValidEmail] = useState(true);
+  const [isValidForm, setIsValidForm] = useState(false);
+ 
+  function handleChangeName(evt) {
+    setName(evt.target.value);
+    setIsValidName(evt.target.validity.valid);
+  }
+
+  function handleChangeEmail(evt) {
+    setEmail(evt.target.value);
+    setIsValidEmail(evt.target.validity.valid);
+  }
+
+  useEffect(() => {
+    setName(currentUser.name);
+    setEmail(currentUser.email);
+  }, []);
+
+  useEffect(() => {
+    setIsValidForm(isValidName && isValidEmail);
+  }, [isValidName, isValidEmail]);
+
+  useEffect(() => {
+    clearNoticeResApi()
+  }, [clearNoticeResApi]);
+
+
+  function handleSubmit(evt) {
+    evt.preventDefault();
+    onUpdateUser({
+      name,
+      email
+    });
+    
+  }
+
   return (
     <>
       <Header loggedIn={loggedIn} withColorFill={false} />
       <main className="profile">
         <h2 className="profile__title">Привет, Ольга!</h2>
-        <form className="profile__form">
+        <form className="profile__form" onSubmit={handleSubmit}>
           <fieldset className="profile__fieldset">
             <div className="profile__form-item">
               <label className="profile__form-label" htmlFor="profileName">
                 Имя
               </label>
               <input
-                // value={currentUser.name}
-                className="profile__form-input"
+                value={name}
+                onChange={handleChangeName}
+                className={`profile__form-input ${
+                  !isValidName ? " profile__form-input_novalidate " : ""
+                }`}        
                 name="profileName"
                 id="profileName"
                 type="text"
                 autoComplete="off"
-                placeholder={currentUser.name}
                 required
               />
             </div>
@@ -35,21 +76,25 @@ function Profile({ onSignOut, loggedIn }) {
                 E-mail
               </label>
               <input
-                // value={currentUser.email}
-                className="profile__form-input"
+                value={email}
+                onChange={handleChangeEmail}
+                className={`profile__form-input ${
+                  !isValidEmail ? " profile__form-input_novalidate " : ""
+                }`}  
                 name="profileEmail"
                 id="profileEmail"
                 type="email"
                 autoComplete="off"
-                placeholder={currentUser.email}
                 required
               />
             </div>
           </fieldset>
+          <p className="profile__res-api">{noticeResApi}</p>
           <button
             type="submit"
             className="profile__button"
             aria-label="Редактировать профиль"
+            disabled={!isValidForm}
           >
             Редактировать
           </button>

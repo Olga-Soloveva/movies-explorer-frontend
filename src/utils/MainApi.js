@@ -46,6 +46,20 @@ class MainApi {
       },
     }).then(this._checkResponse);
   };
+
+  editUserInfo({ name, email, token }) {
+    return fetch(`${this._baseUrl}/users/me`, {
+      method: "PATCH",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        name,
+        email,
+      }),
+    }).then(this._checkResponse);
+  }
 }
 
 const mainApiOption = new MainApi({ baseUrl: BASE_URL });

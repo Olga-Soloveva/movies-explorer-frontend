@@ -198,6 +198,11 @@
     gap: 7px;
   }
 
+  .form__error-api {
+    font-size: 12px;
+    line-height: 15px;
+  }
+
   .form__link-description {
     font-size: 12px;
     line-height: 15px;

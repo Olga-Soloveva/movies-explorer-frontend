@@ -1,11 +1,12 @@
 import "./Register.css";
 
 import React, { useState, useEffect } from "react";
+import { validate } from 'react-email-validator';
 
 import Form from "../Form/Form";
 import PopupErrorApi from "../PopupErrorApi/PopupErrorApi";
 
-function Register({ onRegister, errorApiText, clearErrorApi }) {
+function Register({ onRegister, noticeResApi, clearNoticeResApi }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [name, setName] = useState("");
@@ -20,7 +21,7 @@ function Register({ onRegister, errorApiText, clearErrorApi }) {
   function handleChangeEmail(evt) {
     setEmail(evt.target.value);
     setErrorEmailMessage(evt.target.validationMessage);
-    setIsValidEmail(evt.target.validity.valid);
+    setIsValidEmail(validate(email));
   }
 
   function handleChangePassword(evt) {
@@ -45,8 +46,8 @@ function Register({ onRegister, errorApiText, clearErrorApi }) {
   }, [isValidEmail, isValidPassword, isValidName]);
 
   useEffect(() => {
-    clearErrorApi()
-  }, []);
+    clearNoticeResApi()
+  }, [clearNoticeResApi]);
 
   return (
     <main className="register">
@@ -58,7 +59,7 @@ function Register({ onRegister, errorApiText, clearErrorApi }) {
         linkText="Войти"
         handleSubmit={handleSubmit}
         isValidForm={isValidForm}
-        errorApiText={errorApiText}
+        noticeResApi={noticeResApi}
         link="/signin"
       >
         <div className="form__field">
@@ -76,6 +77,7 @@ function Register({ onRegister, errorApiText, clearErrorApi }) {
             name="name"
             autoComplete="off"
             placeholder=""
+            pattern="^[A-Za-zА-Яа-яЁё\s\-]+$"
             required
           />
           <span
