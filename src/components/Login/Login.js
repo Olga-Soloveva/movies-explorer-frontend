@@ -1,33 +1,18 @@
 import "./Login.css";
 
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
+import { useFormWithValidation } from "../../hooks/useFormWithValidation";
 
 import Form from "../Form/Form";
 import PopupErrorApi from "../PopupErrorApi/PopupErrorApi";
 
 function Login({ onLogin, noticeResApi, clearNoticeResApi }) {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [isValidEmail, setIsValidEmail] = useState(false);
-  const [isValidPassword, setIsValidPassword] = useState(false);
-  const [isValidForm, setIsValidForm] = useState(false);
-  const [errorEmailMessage, setErrorEmailMessage] = useState("");
-  const [errorPasswordMessage, setErrorPasswordMessage] = useState("");
-
-  function handleChangeEmail(evt) {
-    setEmail(evt.target.value);
-    setErrorEmailMessage(evt.target.validationMessage);
-    setIsValidEmail(evt.target.validity.valid);
-  }
-
-  function handleChangePassword(evt) {
-    setPassword(evt.target.value);
-    setErrorPasswordMessage(evt.target.validationMessage);
-    setIsValidPassword(evt.target.validity.valid);
-  }
+  const { values, handleChange, errors, isValidInputs, isValidForm } =
+    useFormWithValidation();
 
   function handleSubmit(evt) {
     evt.preventDefault();
+    const { email, password } = values;
     if (!email || !password) {
       return;
     }
@@ -35,13 +20,10 @@ function Login({ onLogin, noticeResApi, clearNoticeResApi }) {
   }
 
   useEffect(() => {
-    setIsValidForm(isValidEmail && isValidPassword);
-  }, [isValidEmail, isValidPassword]);
-
-
-  useEffect(() => {
-    clearNoticeResApi()
+    clearNoticeResApi();
   }, [clearNoticeResApi]);
+
+
 
   return (
     <main className="login">
@@ -61,10 +43,10 @@ function Login({ onLogin, noticeResApi, clearNoticeResApi }) {
             E-mail
           </label>
           <input
-            value={email}
-            onChange={handleChangeEmail}
+            value={values.email || ""}
+            onChange={handleChange}
             className={`form__input ${
-              !isValidEmail ? "form__input_novalidate" : ""
+              !isValidInputs.email ? "form__input_novalidate" : ""
             }`}
             type="email"
             id="email"
@@ -75,10 +57,10 @@ function Login({ onLogin, noticeResApi, clearNoticeResApi }) {
           />
           <span
             className={`form__error ${
-              !isValidEmail ? "form__error_visible" : ""
+              !isValidInputs.email ? "form__error_visible" : ""
             }`}
           >
-            {errorEmailMessage}
+            {errors.email}
           </span>
         </div>
         <div className="form__field">
@@ -86,10 +68,10 @@ function Login({ onLogin, noticeResApi, clearNoticeResApi }) {
             Пароль
           </label>
           <input
-            value={password}
-            onChange={handleChangePassword}
+            value={values.password || ""}
+            onChange={handleChange}
             className={`form__input ${
-              !isValidPassword ? "form__input_novalidate" : ""
+              !isValidInputs.password ? "form__input_novalidate" : ""
             }`}
             type="password"
             id="password"
@@ -100,10 +82,10 @@ function Login({ onLogin, noticeResApi, clearNoticeResApi }) {
           />
           <span
             className={`form__error ${
-              !isValidPassword ? "form__error_visible" : ""
+              !isValidInputs.password ? "form__error_visible" : ""
             }`}
           >
-            {errorPasswordMessage}
+            {errors.password}
           </span>
         </div>
       </Form>

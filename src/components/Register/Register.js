@@ -1,52 +1,23 @@
 import "./Register.css";
 
-import React, { useState, useEffect } from "react";
-import { validate } from 'react-email-validator';
+import React, { useEffect } from "react";
+import { useFormWithValidation } from "../../hooks/useFormWithValidation";
 
 import Form from "../Form/Form";
 import PopupErrorApi from "../PopupErrorApi/PopupErrorApi";
 
 function Register({ onRegister, noticeResApi, clearNoticeResApi }) {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [name, setName] = useState("");
-  const [isValidEmail, setIsValidEmail] = useState(false);
-  const [isValidPassword, setIsValidPassword] = useState(false);
-  const [isValidName, setIsValidName] = useState(false);
-  const [isValidForm, setIsValidForm] = useState(false);
-  const [errorEmailMessage, setErrorEmailMessage] = useState("");
-  const [errorPasswordMessage, setErrorPasswordMessage] = useState("");
-  const [errorNameMessage, setErrorNameMessage] = useState("");
-  
-  function handleChangeEmail(evt) {
-    setEmail(evt.target.value);
-    setErrorEmailMessage(evt.target.validationMessage);
-    setIsValidEmail(validate(email));
-  }
-
-  function handleChangePassword(evt) {
-    setPassword(evt.target.value);
-    setErrorPasswordMessage(evt.target.validationMessage);
-    setIsValidPassword(evt.target.validity.valid);
-  }
-
-  function handleChangeName(evt) {
-    setName(evt.target.value);
-    setErrorNameMessage(evt.target.validationMessage);
-    setIsValidName(evt.target.validity.valid);
-  }
+  const { values, handleChange, errors, isValidInputs, isValidForm } =
+    useFormWithValidation();
 
   function handleSubmit(evt) {
     evt.preventDefault();
-    onRegister({ email, password, name })
+    const { email, password, name } = values;
+    onRegister({ email, password, name });
   }
 
   useEffect(() => {
-    setIsValidForm(isValidEmail && isValidPassword && isValidName);
-  }, [isValidEmail, isValidPassword, isValidName]);
-
-  useEffect(() => {
-    clearNoticeResApi()
+    clearNoticeResApi();
   }, [clearNoticeResApi]);
 
   return (
@@ -67,10 +38,10 @@ function Register({ onRegister, noticeResApi, clearNoticeResApi }) {
             Имя
           </label>
           <input
-            value={name}
-            onChange={handleChangeName}
+            value={values.name || ""}
+            onChange={handleChange}
             className={`form__input ${
-              !isValidName ? "form__input_novalidate" : ""
+              !isValidInputs.name ? "form__input_novalidate" : ""
             }`}
             type="text"
             id="name"
@@ -82,10 +53,10 @@ function Register({ onRegister, noticeResApi, clearNoticeResApi }) {
           />
           <span
             className={`form__error ${
-              !isValidName ? "form__error_visible" : ""
+              !isValidInputs.name  ? "form__error_visible" : ""
             }`}
           >
-            {errorNameMessage}
+            {errors.name}
           </span>
         </div>
         <div className="form__field">
@@ -93,10 +64,10 @@ function Register({ onRegister, noticeResApi, clearNoticeResApi }) {
             E-mail
           </label>
           <input
-            value={email}
-            onChange={handleChangeEmail}
+            value={values.email || ""}
+            onChange={handleChange}
             className={`form__input ${
-              !isValidEmail ? "form__input_novalidate" : ""
+              !isValidInputs.email ? "form__input_novalidate" : ""
             }`}
             type="email"
             id="email"
@@ -107,10 +78,10 @@ function Register({ onRegister, noticeResApi, clearNoticeResApi }) {
           />
           <span
             className={`form__error ${
-              !isValidEmail ? "form__error_visible" : ""
+              !isValidInputs.email  ? "form__error_visible" : ""
             }`}
           >
-            {errorEmailMessage}
+             {errors.email}
           </span>
         </div>
         <div className="form__field">
@@ -118,10 +89,10 @@ function Register({ onRegister, noticeResApi, clearNoticeResApi }) {
             Пароль
           </label>
           <input
-            value={password}
-            onChange={handleChangePassword}
+            value={values.password || ""}
+            onChange={handleChange}
             className={`form__input ${
-              !isValidPassword ? "form__input_novalidate" : ""
+              !isValidInputs.password ? "form__input_novalidate" : ""
             }`}
             type="password"
             id="password"
@@ -133,10 +104,10 @@ function Register({ onRegister, noticeResApi, clearNoticeResApi }) {
           />
           <span
             className={`form__error ${
-              !isValidPassword ? "form__error_visible" : ""
+              !isValidInputs.password? "form__error_visible" : ""
             }`}
           >
-            {errorPasswordMessage}
+            {errors.password}
           </span>
         </div>
       </Form>

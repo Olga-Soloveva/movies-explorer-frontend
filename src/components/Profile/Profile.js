@@ -1,5 +1,6 @@
 import "./Profile.css";
 import React, { useState, useEffect, useContext } from "react";
+import { validate } from 'react-email-validator';
 import Header from "../Header/Header";
 import PopupErrorApi from "../PopupErrorApi/PopupErrorApi";
 import { CurrentUserContext } from "../../contexts/CurrentUserContext";
@@ -8,11 +9,12 @@ import { Link } from "react-router-dom";
 
 function Profile({ loggedIn, onSignOut, onUpdateUser, noticeResApi, clearNoticeResApi }) {
   const [currentUser] = useContext(CurrentUserContext);
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
+  const [name, setName] = useState(currentUser.name);
+  const [email, setEmail] = useState(currentUser.email);
   const [isValidName, setIsValidName] = useState(true);
   const [isValidEmail, setIsValidEmail] = useState(true);
   const [isValidForm, setIsValidForm] = useState(false);
+  const [isUserInfoChange, setIsUserInfoChange ] = useState(false);
  
   function handleChangeName(evt) {
     setName(evt.target.value);
@@ -21,13 +23,18 @@ function Profile({ loggedIn, onSignOut, onUpdateUser, noticeResApi, clearNoticeR
 
   function handleChangeEmail(evt) {
     setEmail(evt.target.value);
-    setIsValidEmail(evt.target.validity.valid);
+    setIsValidEmail(validate(email));
   }
 
-  useEffect(() => {
-    setName(currentUser.name);
-    setEmail(currentUser.email);
-  }, []);
+
+  useEffect(() => { 
+    if ((name !== currentUser.name) || (email !== currentUser.email)) {
+      setIsUserInfoChange(true)
+      console.log(isUserInfoChange)
+    } else {
+      setIsUserInfoChange(false)
+    }
+  }, [name, email]);
 
   useEffect(() => {
     setIsValidForm(isValidName && isValidEmail);
@@ -94,7 +101,8 @@ function Profile({ loggedIn, onSignOut, onUpdateUser, noticeResApi, clearNoticeR
             type="submit"
             className="profile__button"
             aria-label="Редактировать профиль"
-            disabled={!isValidForm}
+            disabled={(!isValidForm || !isUserInfoChange)}
+            // disabled={!isUserInfoChange}
           >
             Редактировать
           </button>
