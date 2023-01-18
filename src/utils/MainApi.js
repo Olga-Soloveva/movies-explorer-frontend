@@ -8,8 +8,12 @@ class MainApi {
   _checkResponse(res) {
     if (res.ok) {
       return res.json();
-    }
-    return Promise.reject(`Ошибка: ${res.status}`);
+    } 
+
+    return res.json()
+      .then((err) => {
+        return Promise.reject(err) 
+    })
   }
 
   register = (email, password, name) => {
@@ -30,7 +34,7 @@ class MainApi {
       },
       body: JSON.stringify({ email, password }),
     })
-      .then(this._checkResponse)
+    .then(this._checkResponse)
   };
 
   checkToken = (token) => {

@@ -5,7 +5,7 @@ import React, { useState, useEffect } from "react";
 import Form from "../Form/Form";
 import PopupErrorApi from "../PopupErrorApi/PopupErrorApi";
 
-function Login({ onLogin }) {
+function Login({ onLogin, errorApiText, clearErrorApi }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isValidEmail, setIsValidEmail] = useState(false);
@@ -31,12 +31,16 @@ function Login({ onLogin }) {
     if (!email || !password) {
       return;
     }
-    onLogin({ email, password })
+    onLogin({ email, password });
   }
 
   useEffect(() => {
     setIsValidForm(isValidEmail && isValidPassword);
   }, [isValidEmail, isValidPassword]);
+
+  useEffect(() => {
+    clearErrorApi()
+  }, []);
 
   return (
     <main className="login">
@@ -48,6 +52,7 @@ function Login({ onLogin }) {
         linkText="Регистрация"
         handleSubmit={handleSubmit}
         isValidForm={isValidForm}
+        errorApiText={errorApiText}
         link="/signup"
       >
         <div className="form__field">

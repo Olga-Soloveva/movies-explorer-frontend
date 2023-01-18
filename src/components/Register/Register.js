@@ -5,7 +5,7 @@ import React, { useState, useEffect } from "react";
 import Form from "../Form/Form";
 import PopupErrorApi from "../PopupErrorApi/PopupErrorApi";
 
-function Register({ onRegister }) {
+function Register({ onRegister, errorApiText, clearErrorApi }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [name, setName] = useState("");
@@ -44,6 +44,10 @@ function Register({ onRegister }) {
     setIsValidForm(isValidEmail && isValidPassword && isValidName);
   }, [isValidEmail, isValidPassword, isValidName]);
 
+  useEffect(() => {
+    clearErrorApi()
+  }, []);
+
   return (
     <main className="register">
       <Form
@@ -54,6 +58,7 @@ function Register({ onRegister }) {
         linkText="Войти"
         handleSubmit={handleSubmit}
         isValidForm={isValidForm}
+        errorApiText={errorApiText}
         link="/signin"
       >
         <div className="form__field">

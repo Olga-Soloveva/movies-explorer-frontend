@@ -11,6 +11,7 @@ function Form({
   link,
   handleSubmit,
   isValidForm,
+  errorApiText,
   children,
 }) {
   return (
@@ -31,6 +32,7 @@ function Form({
         {children}
       </form>
       <div className="form__bottom-conteiner">
+        <p className="form__error-api">{errorApiText}</p>
         <button
           form={idForm}
           className="form__button"

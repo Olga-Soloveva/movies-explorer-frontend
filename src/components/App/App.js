@@ -18,6 +18,7 @@ import { CurrentUserContext } from "../../contexts/CurrentUserContext";
 function App() {
   const history = useHistory();
   const [loggedIn, setLoggedIn] = useState(false);
+  const [errorApiText, serErrorApiText] = useState("");
   const [currentUser, setCurrentUser] = useState({
     id: "",
     name: "",
@@ -74,7 +75,9 @@ function App() {
           history.push("/movies");
         }
       })
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        serErrorApiText(err.message)
+      });
   };
 
   const onLogin = ({ email, password }) => {
@@ -91,7 +94,7 @@ function App() {
         }
       })
       .catch((err) => {
-        console.log(err);
+        serErrorApiText(err.message)
       });
   };
 
@@ -99,6 +102,10 @@ function App() {
     history.push("/");
     localStorage.removeItem("jwt");
     setLoggedIn(false);
+  }
+
+  function clearErrorApi() {
+    serErrorApiText("")
   }
 
   return (
@@ -114,19 +121,33 @@ function App() {
             loggedIn={loggedIn}
             component={Movies}
           />
-          <Route path="/saved-movies">
-            <SavedMovies loggedIn={loggedIn} />
-          </Route>
-          <Route path="/profile">
-            <Profile onSignOut={onSignOut} loggedIn={loggedIn} />
-          </Route>
-
-          <Route path="/signup">
-            <Register onRegister={onRegister} />
-          </Route>
-          <Route path="/signin">
-            <Login onLogin={onLogin} />
-          </Route>
+          <ProtectedRoute
+            path="/saved-movies"
+            loggedIn={loggedIn}
+            component={SavedMovies}
+          />
+          <ProtectedRoute
+            path="/profile"
+            loggedIn={loggedIn}
+            component={Profile}
+            onSignOut={onSignOut}
+          />
+          <ProtectedRoute
+            path="/signup"
+            loggedIn={!loggedIn}
+            component={Register}
+            onRegister={onRegister}
+            errorApiText={errorApiText}
+            clearErrorApi={clearErrorApi}
+          />
+          <ProtectedRoute
+            path="/signin"
+            loggedIn={!loggedIn}
+            component={Login}
+            onLogin={onLogin}
+            errorApiText={errorApiText}
+            clearErrorApi={clearErrorApi}
+          />
           <Route path="*">
             <PageNotFound />
           </Route>

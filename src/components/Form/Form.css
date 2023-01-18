@@ -142,6 +142,16 @@
   gap: 6px;
 }
 
+.form__error-api {
+  width: 100%;
+  margin: 0;
+  color: #ee3465;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 17px;
+  text-align: center;
+}
+
 .form__link-description {
   margin: 0;
   color: #8b8b8b;
