@@ -8,7 +8,7 @@ import { CurrentUserContext } from "../../contexts/CurrentUserContext";
 import { Link } from "react-router-dom";
 
 function Profile({ loggedIn, onSignOut, onUpdateUser, noticeResApi, clearNoticeResApi }) {
-  const [currentUser] = useContext(CurrentUserContext);
+  const currentUser = useContext(CurrentUserContext);
   const [name, setName] = useState(currentUser.name);
   const [email, setEmail] = useState(currentUser.email);
   const [isValidName, setIsValidName] = useState(true);
@@ -30,11 +30,10 @@ function Profile({ loggedIn, onSignOut, onUpdateUser, noticeResApi, clearNoticeR
   useEffect(() => { 
     if ((name !== currentUser.name) || (email !== currentUser.email)) {
       setIsUserInfoChange(true)
-      console.log(isUserInfoChange)
-    } else {
+     } else {
       setIsUserInfoChange(false)
     }
-  }, [name, email]);
+  }, [name, email, currentUser],);
 
   useEffect(() => {
     setIsValidForm(isValidName && isValidEmail);

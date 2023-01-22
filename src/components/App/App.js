@@ -5,6 +5,7 @@ import { Switch, Route, useHistory } from "react-router-dom";
 
 import ProtectedRoute from "../ProtectedRoute/ProtectedRoute";
 import mainApiOption from "../../utils/MainApi";
+
 import Main from "../Main/Main";
 import Movies from "../Movies/Movies";
 import SavedMovies from "../SavedMovies/SavedMovies";
@@ -17,13 +18,14 @@ import { CurrentUserContext } from "../../contexts/CurrentUserContext";
 
 function App() {
   const history = useHistory();
-  const [loggedIn, setLoggedIn] = useState(false);
-  const [noticeResApi, setNoticeResApi]= useState("");
+  const [loggedIn, setLoggedIn] = useState(true);
+  const [noticeResApi, setNoticeResApi] = useState("");
   const [currentUser, setCurrentUser] = useState({
     id: "",
     name: "",
     email: "",
   });
+
 
   useEffect(() => {
     const token = localStorage.getItem("jwt");
@@ -39,8 +41,10 @@ function App() {
           });
         })
         .catch((err) => {
+          setLoggedIn(false);
           console.log(err);
         });
+
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [loggedIn]);
@@ -57,6 +61,7 @@ function App() {
         })
         .catch((err) => {
           localStorage.removeItem("jwt");
+          setLoggedIn(false);
           console.log(err);
         });
     }
@@ -100,9 +105,10 @@ function App() {
   };
 
   const onSignOut = () => {
-    history.push("/");
-    localStorage.removeItem("jwt");
+    setCurrentUser({ ...currentUser, id: "", name: "", email: "" });
     setLoggedIn(false);
+    localStorage.clear();
+    history.push("/");
   };
 
   const handleUpdateUser = ({ name, email }) => {
@@ -115,7 +121,7 @@ function App() {
       })
       .catch((err) => {
         setNoticeResApi(err.message);
-      })
+      });
   };
 
   const clearNoticeResApi = useCallback(() => {
@@ -124,7 +130,7 @@ function App() {
 
   return (
     <div className="page">
-      <CurrentUserContext.Provider value={[currentUser, setCurrentUser]}>
+      <CurrentUserContext.Provider value={currentUser}>
         <Switch>
           <Route exact path="/">
             <Main loggedIn={loggedIn} />

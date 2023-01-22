@@ -1,14 +1,14 @@
 import "./MoviesCard.css";
 import { Route } from "react-router-dom";
 
-function MoviesCard({ name, link }) {
+function MoviesCard({ name, imgLink, hour, minute }) {
   return (
     <article className="card">
       <div className="card__photo-container">
         <img
           className="card__photo"
           alt={`Кадр из фильма ${name}`}
-          src={link}
+          src={imgLink}
         />
       </div>
       <div className="card__info-container">
@@ -28,7 +28,7 @@ function MoviesCard({ name, link }) {
           />
         </Route>
       </div>
-      <p className="card__time">1ч 42м</p>
+      <p className="card__time">{hour} ч {minute} м</p>
     </article>
   );
 }

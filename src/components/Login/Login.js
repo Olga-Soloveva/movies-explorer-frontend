@@ -4,7 +4,6 @@ import React, { useEffect } from "react";
 import { useFormWithValidation } from "../../hooks/useFormWithValidation";
 
 import Form from "../Form/Form";
-import PopupErrorApi from "../PopupErrorApi/PopupErrorApi";
 
 function Login({ onLogin, noticeResApi, clearNoticeResApi }) {
   const { values, handleChange, errors, isValidInputs, isValidForm } =
@@ -89,8 +88,7 @@ function Login({ onLogin, noticeResApi, clearNoticeResApi }) {
           </span>
         </div>
       </Form>
-      <PopupErrorApi textError={"Текст ошибки login"} />
-    </main>
+     </main>
   );
 }
 
