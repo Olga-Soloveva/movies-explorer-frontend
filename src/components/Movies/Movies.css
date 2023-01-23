@@ -3,6 +3,7 @@
   display: flex;
   flex-direction: column;
   padding: 0 70px;
+  min-height: calc(100vh - 246px);
 }
 
 .movies-page__search-container {
@@ -11,6 +12,16 @@
   flex-direction: column;
   padding: 70px 0 48px;
   gap: 29px;
+}
+
+.movies__error-api {
+  width: 100%;
+  margin: 40px 0 20px;
+  color: #ee3465;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 17px;
+  text-align: center;
 }
 
 @media screen and (max-width: 950px) {
@@ -35,5 +46,10 @@
 
   .movies-page__search-container {
     gap: 42px;
+  }
+
+  .movies__error-api{
+    font-size: 12px;
+    line-height: 15px;
   }
 }

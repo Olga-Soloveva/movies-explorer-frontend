@@ -8,64 +8,99 @@ import SearchForm from "../SearchForm/SearchForm";
 import FilterCheckbox from "../FilterCheckbox/FilterCheckbox";
 import Preloader from "../Preloader/Preloader";
 import MoviesCardList from "../MoviesCardList/MoviesCardList";
-import PopupErrorApi from "../PopupErrorApi/PopupErrorApi";
 import moviesApiOption from "../../utils/MoviesApi";
 
-function Movies({ loggedIn }) {
+function Movies({ loggedIn, searchText, filterCheck }) {
   const [isAwaitApiQuery, setIsAwaitApiQuery] = useState(false);
-  const [foundhMovies, setFoundMovies] = useState(
-    JSON.parse(localStorage.getItem("foundhMovies"))
+  const [foundMovies, setFoundMovies] = useState(
+    JSON.parse(localStorage.getItem("foundMovies")) || []
   );
+  const [displayMovies, setDisplayMovies] = useState([]);
   const [searchQuery, setSearchQuery] = useState(
     localStorage.getItem("searchQuery") || ""
   );
-
+  const [noticeResApiMovie, setNoticeResApiMovie] = useState("");
+  const [shortMovies, setShortMovies] = useState(
+    localStorage.getItem("shortMovies")
+      ? JSON.parse(localStorage.getItem("shortMovies"))
+      : true
+  );
   const handleChangeSearchQuery = (evt) => {
     setSearchQuery(evt.target.value);
   };
 
-  React.useEffect(() => {
-    localStorage.setItem("foundhMovies", JSON.stringify(foundhMovies));
-  }, [foundhMovies]);
+  useEffect(() => {
+    localStorage.setItem("foundMovies", JSON.stringify(foundMovies));
+  }, [foundMovies]);
 
-  function filterMovies(movie) {
+  useEffect(() => {
     localStorage.setItem("searchQuery", searchQuery);
-    if (movie.nameRU.toLowerCase().includes(searchQuery.toLowerCase())) {
-      return true;
-    }
-    return false;
+  }, [searchQuery]);
+
+  useEffect(() => {
+    localStorage.setItem("shortMovies", shortMovies);
+  }, [shortMovies]);
+
+  useEffect(() => {
+    setDisplayMovies(
+      !shortMovies ? foundMovies.filter(filterCheckMovies) : foundMovies
+    );
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [foundMovies, shortMovies]);
+
+  function searchTextMovies(movie) {
+    return searchText(movie, "nameRU", searchQuery);
+  }
+
+  function filterCheckMovies(movie) {
+    return filterCheck(movie, "duration", 40);
   }
 
   const handleSearchMovies = (evt) => {
     evt.preventDefault();
-    setIsAwaitApiQuery(true);
-    moviesApiOption
-      .getMovies()
-      .then((res) => {
-        return res.filter(filterMovies);
-      })
-      .then((res) => {
-        setFoundMovies(
-          res.map(function (movie) {
-            const imgLink = `${MOVIES_URL_IMAGE + movie.image.url}`;
-            const hour = Math.floor(movie.duration / 60);
-            const minute = movie.duration - hour * 60;
-            return {
-              id: movie.id,
-              nameRU: movie.nameRU,
-              imgLink,
-              hour,
-              minute,
-            };
-          })
-        );
-      })
-      .catch((err) => {
-        console.log(err);
-      })
-      .finally(() => {
-        setIsAwaitApiQuery(false);
-      });
+    if (searchQuery) {
+      setNoticeResApiMovie("");
+      setIsAwaitApiQuery(true);
+      moviesApiOption
+        .getMovies()
+        .then((res) => {
+          return res.filter(searchTextMovies);
+        })
+        .then((res) => {
+          setFoundMovies(
+            res.map(function (movie) {
+              const imgLink = `${MOVIES_URL_IMAGE + movie.image.url}`;
+              const hour = Math.floor(movie.duration / 60);
+              const minute = movie.duration - hour * 60;
+              return {
+                id: movie.id,
+                nameRU: movie.nameRU,
+                imgLink,
+                duration: movie.duration,
+                hour,
+                minute,
+                trailerLink: movie.trailerLink,
+              };
+            })
+          );
+        })
+        .catch((err) => {
+          setNoticeResApiMovie(
+            "Во время запроса произошла ошибка. Возможно, проблема с соединением или сервер недоступен. Подождите немного и попробуйте ещё раз"
+          );
+        })
+        .finally(() => {
+          setIsAwaitApiQuery(false);
+        });
+    } else {
+      setFoundMovies([]);
+      setNoticeResApiMovie("Нужно ввести ключевое слово");
+      setSearchQuery("");
+    }
+  };
+
+  const handleCheckShortMovies = () => {
+    setShortMovies(!shortMovies);
   };
 
   return (
@@ -77,17 +112,25 @@ function Movies({ loggedIn }) {
             formName={"movies"}
             inputName={"searchMovies"}
             inputText={searchQuery}
+            inputCheck={shortMovies}
             onChangeInput={handleChangeSearchQuery}
             onSubmit={handleSearchMovies}
+            disabled={isAwaitApiQuery}
           />
           <FilterCheckbox
             filterName={"moviesFilter"}
             checkboxName={"shortMovies"}
+            inputCheck={shortMovies}
+            onCheck={handleCheckShortMovies}
+            disabled={isAwaitApiQuery}
           />
         </div>
         {isAwaitApiQuery && <Preloader />}
-        {foundhMovies && !isAwaitApiQuery && <MoviesCardList movies={foundhMovies} />}
-        <PopupErrorApi textError={"Текст ошибки movies"} />
+        {displayMovies &&
+          !isAwaitApiQuery &&
+          !noticeResApiMovie &&
+          searchQuery && <MoviesCardList movies={displayMovies} />}
+        <p className="movies__error-api">{noticeResApiMovie}</p>
       </main>
       <Footer />
     </>

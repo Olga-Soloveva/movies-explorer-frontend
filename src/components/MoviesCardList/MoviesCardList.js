@@ -2,6 +2,7 @@ import "./MoviesCardList.css";
 import MoviesCard from "../MoviesCard/MoviesCard";
 
 function MoviesCardList( { movies } ) {
+
   return (
     <section className="card-list" aria-label="Найденные фильмы">
       <div className="card-list__content">
@@ -12,6 +13,7 @@ function MoviesCardList( { movies } ) {
             imgLink={movie.imgLink}
             hour={movie.hour}
             minute={movie.minute}
+            trailerLink={movie.trailerLink}
           />
         ))}
       </div>
@@ -22,7 +24,7 @@ function MoviesCardList( { movies } ) {
       >
         Ещё
       </button> */}
-      <div className="card-list__no-result">Ничего не найдено</div>
+      { (movies.length === 0) && <div className="card-list__no-result">Ничего не найдено</div>}
     </section>
   );
 }

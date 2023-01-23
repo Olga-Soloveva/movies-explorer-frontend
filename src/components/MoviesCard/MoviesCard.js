@@ -1,15 +1,17 @@
 import "./MoviesCard.css";
 import { Route } from "react-router-dom";
 
-function MoviesCard({ name, imgLink, hour, minute }) {
+function MoviesCard({ name, imgLink, hour, minute, trailerLink }) {
   return (
     <article className="card">
       <div className="card__photo-container">
-        <img
-          className="card__photo"
-          alt={`Кадр из фильма ${name}`}
-          src={imgLink}
-        />
+        <a href={trailerLink} target="_blank" rel="noreferrer">
+          <img
+            className="card__photo"
+            alt={`Кадр из фильма ${name}`}
+            src={imgLink}
+          />
+        </a>
       </div>
       <div className="card__info-container">
         <h3 className="card__name">{name}</h3>
@@ -28,7 +30,9 @@ function MoviesCard({ name, imgLink, hour, minute }) {
           />
         </Route>
       </div>
-      <p className="card__time">{hour} ч {minute} м</p>
+      <p className="card__time">
+        {hour} ч {minute} м
+      </p>
     </article>
   );
 }

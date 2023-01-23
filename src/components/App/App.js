@@ -128,6 +128,21 @@ function App() {
     setNoticeResApi("");
   }, []);
 
+  const searchText = (data, parametr, searchText) => {
+    if (data[parametr].toLowerCase().includes(searchText.toLowerCase())) {
+      return true;
+    }
+    return false;
+  }
+
+  const filterCheck = (data, parametr, duration) => {
+    if (data[parametr] > duration) {
+      return true;
+    }
+    return false;
+  }
+
+
   return (
     <div className="page">
       <CurrentUserContext.Provider value={currentUser}>
@@ -140,6 +155,8 @@ function App() {
             path="/movies"
             loggedIn={loggedIn}
             component={Movies}
+            searchText={searchText}
+            filterCheck={filterCheck}
           />
           <ProtectedRoute
             path="/saved-movies"

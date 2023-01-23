@@ -3,9 +3,10 @@ import "./SearchForm.css";
 function SearchForm({
   formName,
   inputName,
+  inputText,
   onChangeInput,
   onSubmit,
-  inputText,
+  disabled,
 }) {
   return (
     <form
@@ -24,11 +25,13 @@ function SearchForm({
         autoComplete="off"
         placeholder="Фильм"
         onChange={onChangeInput}
+        disabled={disabled}
       />
       <button
         type="submit"
         className="search-form__button"
         aria-label="Искать фильмы"
+        disabled={disabled}
       />
     </form>
   );

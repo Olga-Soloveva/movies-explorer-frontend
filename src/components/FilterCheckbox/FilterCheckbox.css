@@ -35,15 +35,21 @@
   height: 20px;
   cursor: pointer;
   transition: opacity 0.3s ease-in-out;
-  background-image: url(../../images/tumbler-on.svg);
+  background-image: url(../../images/tumbler-off.svg);
   background-repeat: no-repeat;
   background-position: 50% 50%;
   background-size: 100% 100%;
 }
 
 .filter__checkbox:checked + .filter__pseudo-checkbox {
-  background-image: url(../../images/tumbler-off.svg);
+  background-image: url(../../images/tumbler-on.svg);
 }
+
+.filter__checkbox:disabled + .filter__pseudo-checkbox {
+  opacity: 0.3;
+  cursor: default;
+}
+
 
 @media screen and (max-width: 650px) {
   .filter__label {
