@@ -95,7 +95,6 @@ function SavedMovies({ loggedIn, searchText, filterCheck }) {
   };
 
   const handleMovieDelete = (movie) => {
-    console.log("delete");
     const token = localStorage.getItem("jwt");
     mainApiOption
       .deleteLikeMovie(movie._id, token)

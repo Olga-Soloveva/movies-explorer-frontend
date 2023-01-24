@@ -12,14 +12,38 @@ import moviesApiOption from "../../utils/MoviesApi";
 import mainApiOption from "../../utils/MainApi";
 
 function Movies({ loggedIn, searchText, filterCheck }) {
+  const [windowWidth, setWindowWidth] = useState([window.innerWidth]);
   const [isAwaitApiQuery, setIsAwaitApiQuery] = useState(false);
   const [foundMovies, setFoundMovies] = useState([]);
+  const [filterMovies, setFilterMovies] = useState([]);
   const [displayMovies, setDisplayMovies] = useState([]);
   const [searchFilmQuery, setSearchFilmQuery] = useState("");
   const [noticeResApiMovie, setNoticeResApiMovie] = useState("");
   const [noticeResApi, setNoticeResApi] = useState("");
   const [shortMovies, setShortMovies] = useState(true);
   const [savedMovies, setSavedMovies] = useState([]);
+  const [moviesToDisplay, setMoviesToDisplay] = useState(false);
+  const [startMoviesCounter, setStartMoviesCounter] = useState(() => {
+    if (windowWidth > 950) {
+      return 12;
+    } else if (windowWidth > 650) {
+      return 8;
+    } else if (windowWidth <= 650) {
+      return 5;
+    }
+  });
+  const [moviesCounter, setMoviesCounter] = useState(startMoviesCounter);
+
+  useEffect(() => {
+    function resize() {
+      setWindowWidth(window.innerWidth);
+    }
+    resize();
+    window.addEventListener("resize", resize);
+    return () => {
+      window.removeEventListener("resize", resize);
+    };
+  }, []);
 
   useEffect(() => {
     setNoticeResApi("");
@@ -38,11 +62,45 @@ function Movies({ loggedIn, searchText, filterCheck }) {
   }, []);
 
   useEffect(() => {
-    setDisplayMovies(
+    setFilterMovies(
       shortMovies ? foundMovies : foundMovies.filter(filterCheckMovies)
     );
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [foundMovies, shortMovies]);
+
+  useEffect(() => {
+    setDisplayMovies(filterMovies.slice(0, `${moviesCounter}`));
+  }, [filterMovies, moviesCounter]);
+
+  useEffect(() => {
+    filterMovies > displayMovies
+      ? setMoviesToDisplay(true)
+      : setMoviesToDisplay(false);
+  }, [filterMovies, displayMovies]);
+
+  useEffect(() => {
+    if (windowWidth > 950) {
+      setStartMoviesCounter(12);
+      return;
+    } else if (windowWidth > 650) {
+      setStartMoviesCounter(8);
+      return;
+    } else if (windowWidth <= 650) {
+      setStartMoviesCounter(5);
+    }
+  }, [windowWidth]);
+
+  const handleMoreButton = () => {
+    if (windowWidth > 950) {
+      setMoviesCounter((state) => state + 4);
+      return;
+    } else if (windowWidth > 650) {
+      setMoviesCounter((state) => state + 2);
+      return;
+    } else if (windowWidth <= 650) {
+      setMoviesCounter((state) => state + 2);
+    }
+  };
 
   const handleCheckShortMovies = () => {
     setShortMovies((state) => !state);
@@ -63,6 +121,7 @@ function Movies({ loggedIn, searchText, filterCheck }) {
 
   const handleSearchMovies = (evt) => {
     evt.preventDefault();
+    setMoviesCounter(startMoviesCounter);
     if (searchFilmQuery) {
       localStorage.setItem("searchFilmQuery", searchFilmQuery);
       localStorage.setItem("shortMovies", shortMovies);
@@ -75,7 +134,7 @@ function Movies({ loggedIn, searchText, filterCheck }) {
         })
         .then((res) => {
           return res.map(function (movie) {
-                  const imgLink = `${MOVIES_URL_IMAGE + movie.image.url}`;
+            const imgLink = `${MOVIES_URL_IMAGE + movie.image.url}`;
             const thumbnail = `${
               MOVIES_URL_IMAGE + movie.image.formats.thumbnail.url
             }`;
@@ -172,16 +231,15 @@ function Movies({ loggedIn, searchText, filterCheck }) {
           />
         </div>
         {isAwaitApiQuery && <Preloader />}
-        {displayMovies &&
-          !isAwaitApiQuery &&
-          !noticeResApiMovie &&
-          searchFilmQuery && (
-            <MoviesCardList
-              movies={displayMovies}
-              onMovieLike={handleMovieLike}
-              likeMovies={savedMovies}
-            />
-          )}
+        {displayMovies && !isAwaitApiQuery && !noticeResApiMovie && (
+          <MoviesCardList
+            movies={displayMovies}
+            onMovieLike={handleMovieLike}
+            likeMovies={savedMovies}
+            moviesToDisplay={moviesToDisplay}
+            showMoreMovies={handleMoreButton}
+          />
+        )}
         <p className="movies__error-api">
           {noticeResApiMovie} {noticeResApi}
         </p>
