@@ -9,47 +9,52 @@ import FilterCheckbox from "../FilterCheckbox/FilterCheckbox";
 import Preloader from "../Preloader/Preloader";
 import MoviesCardList from "../MoviesCardList/MoviesCardList";
 import moviesApiOption from "../../utils/MoviesApi";
+import mainApiOption from "../../utils/MainApi";
 
 function Movies({ loggedIn, searchText, filterCheck }) {
   const [isAwaitApiQuery, setIsAwaitApiQuery] = useState(false);
-  const [foundMovies, setFoundMovies] = useState(
-    JSON.parse(localStorage.getItem("foundMovies")) || []
-  );
+  const [foundMovies, setFoundMovies] = useState([]);
   const [displayMovies, setDisplayMovies] = useState([]);
-  const [searchQuery, setSearchQuery] = useState(
-    localStorage.getItem("searchQuery") || ""
-  );
+  const [searchFilmQuery, setSearchFilmQuery] = useState("");
   const [noticeResApiMovie, setNoticeResApiMovie] = useState("");
-  const [shortMovies, setShortMovies] = useState(
-    localStorage.getItem("shortMovies")
-      ? JSON.parse(localStorage.getItem("shortMovies"))
-      : true
-  );
-  const handleChangeSearchQuery = (evt) => {
-    setSearchQuery(evt.target.value);
-  };
+  const [noticeResApi, setNoticeResApi] = useState("");
+  const [shortMovies, setShortMovies] = useState(true);
+  const [savedMovies, setSavedMovies] = useState([]);
 
   useEffect(() => {
-    localStorage.setItem("foundMovies", JSON.stringify(foundMovies));
-  }, [foundMovies]);
-
-  useEffect(() => {
-    localStorage.setItem("searchQuery", searchQuery);
-  }, [searchQuery]);
-
-  useEffect(() => {
-    localStorage.setItem("shortMovies", shortMovies);
-  }, [shortMovies]);
+    setNoticeResApi("");
+    if (localStorage.getItem("foundMovies")) {
+      setFoundMovies(JSON.parse(localStorage.getItem("foundMovies")));
+    }
+    if (localStorage.getItem("savedMovies")) {
+      setSavedMovies(JSON.parse(localStorage.getItem("savedMovies")));
+    }
+    if (localStorage.getItem("searchFilmQuery")) {
+      setSearchFilmQuery(localStorage.getItem("searchFilmQuery"));
+    }
+    if (localStorage.getItem("shortMovies")) {
+      setShortMovies(JSON.parse(localStorage.getItem("shortMovies")));
+    }
+  }, []);
 
   useEffect(() => {
     setDisplayMovies(
-      !shortMovies ? foundMovies.filter(filterCheckMovies) : foundMovies
+      shortMovies ? foundMovies : foundMovies.filter(filterCheckMovies)
     );
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [foundMovies, shortMovies]);
 
+  const handleCheckShortMovies = () => {
+    setShortMovies((state) => !state);
+    localStorage.setItem("shortMovies", !shortMovies);
+  };
+
+  const handleChangeSearchFilmQuery = (evt) => {
+    setSearchFilmQuery(evt.target.value);
+  };
+
   function searchTextMovies(movie) {
-    return searchText(movie, "nameRU", searchQuery);
+    return searchText(movie, "nameRU", searchFilmQuery);
   }
 
   function filterCheckMovies(movie) {
@@ -58,7 +63,9 @@ function Movies({ loggedIn, searchText, filterCheck }) {
 
   const handleSearchMovies = (evt) => {
     evt.preventDefault();
-    if (searchQuery) {
+    if (searchFilmQuery) {
+      localStorage.setItem("searchFilmQuery", searchFilmQuery);
+      localStorage.setItem("shortMovies", shortMovies);
       setNoticeResApiMovie("");
       setIsAwaitApiQuery(true);
       moviesApiOption
@@ -67,22 +74,19 @@ function Movies({ loggedIn, searchText, filterCheck }) {
           return res.filter(searchTextMovies);
         })
         .then((res) => {
-          setFoundMovies(
-            res.map(function (movie) {
-              const imgLink = `${MOVIES_URL_IMAGE + movie.image.url}`;
-              const hour = Math.floor(movie.duration / 60);
-              const minute = movie.duration - hour * 60;
-              return {
-                id: movie.id,
-                nameRU: movie.nameRU,
-                imgLink,
-                duration: movie.duration,
-                hour,
-                minute,
-                trailerLink: movie.trailerLink,
-              };
-            })
-          );
+          return res.map(function (movie) {
+                  const imgLink = `${MOVIES_URL_IMAGE + movie.image.url}`;
+            const thumbnail = `${
+              MOVIES_URL_IMAGE + movie.image.formats.thumbnail.url
+            }`;
+            const hour = Math.floor(movie.duration / 60);
+            const minute = movie.duration - hour * 60;
+            return { ...movie, imgLink, thumbnail, hour, minute };
+          });
+        })
+        .then((res) => {
+          setFoundMovies(res);
+          localStorage.setItem("foundMovies", JSON.stringify(res));
         })
         .catch((err) => {
           setNoticeResApiMovie(
@@ -92,15 +96,58 @@ function Movies({ loggedIn, searchText, filterCheck }) {
         .finally(() => {
           setIsAwaitApiQuery(false);
         });
+      const token = localStorage.getItem("jwt");
+      mainApiOption
+        .getSavedMovies(token)
+        .then((res) => {
+          setSavedMovies(res);
+          localStorage.setItem("savedMovies", JSON.stringify(res));
+        })
+        .catch((err) => {
+          setNoticeResApi(err.message);
+        });
     } else {
       setFoundMovies([]);
       setNoticeResApiMovie("Нужно ввести ключевое слово");
-      setSearchQuery("");
+      setSearchFilmQuery("");
     }
   };
 
-  const handleCheckShortMovies = () => {
-    setShortMovies(!shortMovies);
+  const handleMovieLike = (movie) => {
+    const token = localStorage.getItem("jwt");
+    const savedMoviesId = savedMovies.find(function (savedMovie) {
+      return movie.id === savedMovie.movieId;
+    });
+    const isLiked = Boolean(savedMoviesId);
+    if (!isLiked) {
+      mainApiOption
+        .putLikeMovie(movie, token)
+        .then((newSaveMovie) => {
+          return [...savedMovies, newSaveMovie];
+        })
+        .then((res) => {
+          setSavedMovies(res);
+          localStorage.setItem("savedMovies", JSON.stringify(res));
+        })
+        .catch((err) => {
+          setNoticeResApi(err.message);
+        });
+    } else {
+      mainApiOption
+        .deleteLikeMovie(savedMoviesId._id, token)
+        .then((deleteSaveMovie) => {
+          return savedMovies.filter((c) => {
+            return c._id !== deleteSaveMovie._id;
+          });
+        })
+        .then((res) => {
+          setSavedMovies(res);
+          localStorage.setItem("savedMovies", JSON.stringify(res));
+        })
+        .catch((err) => {
+          setNoticeResApi(err.message);
+        });
+    }
   };
 
   return (
@@ -111,9 +158,8 @@ function Movies({ loggedIn, searchText, filterCheck }) {
           <SearchForm
             formName={"movies"}
             inputName={"searchMovies"}
-            inputText={searchQuery}
-            inputCheck={shortMovies}
-            onChangeInput={handleChangeSearchQuery}
+            inputText={searchFilmQuery}
+            onChangeInput={handleChangeSearchFilmQuery}
             onSubmit={handleSearchMovies}
             disabled={isAwaitApiQuery}
           />
@@ -129,8 +175,16 @@ function Movies({ loggedIn, searchText, filterCheck }) {
         {displayMovies &&
           !isAwaitApiQuery &&
           !noticeResApiMovie &&
-          searchQuery && <MoviesCardList movies={displayMovies} />}
-        <p className="movies__error-api">{noticeResApiMovie}</p>
+          searchFilmQuery && (
+            <MoviesCardList
+              movies={displayMovies}
+              onMovieLike={handleMovieLike}
+              likeMovies={savedMovies}
+            />
+          )}
+        <p className="movies__error-api">
+          {noticeResApiMovie} {noticeResApi}
+        </p>
       </main>
       <Footer />
     </>

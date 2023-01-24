@@ -8,12 +8,11 @@ class MainApi {
   _checkResponse(res) {
     if (res.ok) {
       return res.json();
-    } 
+    }
 
-    return res.json()
-      .then((err) => {
-        return Promise.reject(err) 
-    })
+    return res.json().then((err) => {
+      return Promise.reject(err);
+    });
   }
 
   register = (email, password, name) => {
@@ -26,15 +25,14 @@ class MainApi {
     }).then(this._checkResponse);
   };
 
-  authorize = (email, password ) => {
+  authorize = (email, password) => {
     return fetch(`${this._baseUrl}/signin`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({ email, password }),
-    })
-    .then(this._checkResponse)
+    }).then(this._checkResponse);
   };
 
   checkToken = (token) => {
@@ -58,6 +56,50 @@ class MainApi {
         name,
         email,
       }),
+    }).then(this._checkResponse);
+  }
+
+  getSavedMovies(token) {
+    return fetch(`${this._baseUrl}/movies`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+    }).then(this._checkResponse);
+  }
+
+  putLikeMovie(movie, token) {
+    return fetch(`${this._baseUrl}/movies`, {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        country: movie.country,
+        director: movie.director,
+        duration: movie.duration,
+        year: movie.year,
+        description: movie.description,
+        image: movie.imgLink,
+        trailerLink: movie.trailerLink,
+        thumbnail: movie.thumbnail,
+        movieId: movie.id,
+        nameRU: movie.nameRU,
+        nameEN: movie.nameEN,
+        name: movie.name,
+        link: movie.link,
+      }),
+    }).then(this._checkResponse);
+  }
+
+  deleteLikeMovie(movieId, token) {
+    return fetch(`${this._baseUrl}/movies/${movieId}`, {
+      method: "DELETE",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
     }).then(this._checkResponse);
   }
 }

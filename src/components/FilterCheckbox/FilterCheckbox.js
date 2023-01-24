@@ -1,6 +1,12 @@
 import "./FilterCheckbox.css";
 
-function FilterCheckbox({ filterName, checkboxName, inputCheck, disabled, onCheck }) {
+function FilterCheckbox({
+  filterName,
+  checkboxName,
+  inputCheck,
+  disabled,
+  onCheck,
+}) {
   return (
     <form className="filter" name={filterName} id={filterName}>
       <label className="filter__label">
@@ -11,9 +17,14 @@ function FilterCheckbox({ filterName, checkboxName, inputCheck, disabled, onChec
           type="checkbox"
           onChange={onCheck}
           disabled={disabled}
-          checked={inputCheck}
         />
-        <span className="filter__pseudo-checkbox" />
+        <span
+          className={`filter__pseudo-checkbox ${
+            inputCheck
+              ? "filter__pseudo-checkbox_checked_on"
+              : "filter__pseudo-checkbox_checked_off"
+          }`}
+        />
         <span className="filter__label-text">Короткометражки</span>
       </label>
     </form>

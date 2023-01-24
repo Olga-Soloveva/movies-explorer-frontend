@@ -162,6 +162,8 @@ function App() {
             path="/saved-movies"
             loggedIn={loggedIn}
             component={SavedMovies}
+            searchText={searchText}
+            filterCheck={filterCheck}
           />
           <ProtectedRoute
             path="/profile"
