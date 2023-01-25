@@ -38,7 +38,9 @@ function Movies({ loggedIn, searchText, filterCheck }) {
     function resize() {
       setWindowWidth(window.innerWidth);
     }
-    resize();
+    setTimeout(resize, 1000);
+
+    // resize();
     window.addEventListener("resize", resize);
     return () => {
       window.removeEventListener("resize", resize);
