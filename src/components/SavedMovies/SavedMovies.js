@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 
+import { DURATION_SHORT_FILM_FILTER } from "../../utils/constant";
 import "./SavedMovies.css";
 import Header from "../Header/Header";
 import Footer from "../Footer/Footer";
@@ -84,7 +85,7 @@ function SavedMovies({ loggedIn, searchText, filterCheck }) {
   }
 
   function filterCheckMovies(movie) {
-    return filterCheck(movie, "duration", 40);
+    return filterCheck(movie, "duration", DURATION_SHORT_FILM_FILTER);
   }
 
   const handleSearchSavedMovies = (evt) => {

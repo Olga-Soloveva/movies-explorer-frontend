@@ -9,12 +9,18 @@ import { Link } from "react-router-dom";
 
 function Profile({ loggedIn, onSignOut, onUpdateUser, noticeResApi, clearNoticeResApi }) {
   const currentUser = useContext(CurrentUserContext);
-  const [name, setName] = useState(currentUser.name);
-  const [email, setEmail] = useState(currentUser.email);
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
   const [isValidName, setIsValidName] = useState(true);
   const [isValidEmail, setIsValidEmail] = useState(true);
   const [isValidForm, setIsValidForm] = useState(false);
   const [isUserInfoChange, setIsUserInfoChange ] = useState(false);
+
+
+  useEffect(() => { 
+    setName(currentUser.name);
+    setEmail(currentUser.email)
+  }, [currentUser],);
  
   function handleChangeName(evt) {
     setName(evt.target.value);
@@ -25,7 +31,6 @@ function Profile({ loggedIn, onSignOut, onUpdateUser, noticeResApi, clearNoticeR
     setEmail(evt.target.value);
     setIsValidEmail(validate(email));
   }
-
 
   useEffect(() => { 
     if ((name !== currentUser.name) || (email !== currentUser.email)) {
@@ -57,7 +62,7 @@ function Profile({ loggedIn, onSignOut, onUpdateUser, noticeResApi, clearNoticeR
     <>
       <Header loggedIn={loggedIn} withColorFill={false} />
       <main className="profile">
-        <h2 className="profile__title">Привет, Ольга!</h2>
+        <h2 className="profile__title">Привет, {currentUser.name}!</h2>
         <form className="profile__form" onSubmit={handleSubmit}>
           <fieldset className="profile__fieldset">
             <div className="profile__form-item">
@@ -101,7 +106,6 @@ function Profile({ loggedIn, onSignOut, onUpdateUser, noticeResApi, clearNoticeR
             className="profile__button"
             aria-label="Редактировать профиль"
             disabled={(!isValidForm || !isUserInfoChange)}
-            // disabled={!isUserInfoChange}
           >
             Редактировать
           </button>

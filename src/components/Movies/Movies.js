@@ -1,6 +1,17 @@
 import React, { useState, useEffect } from "react";
 
-import { MOVIES_URL_IMAGE } from "../../utils/constant";
+import {
+  MOVIES_URL_IMAGE,
+  DURATION_SHORT_FILM_FILTER,
+  NUMBER_INITIAL_CARDS_WIDE_WINDOW,
+  NUMBER_INITIAL_CARDS_MEDIUM_WINDOW,
+  NUMBER_INITIAL_CARDS_NARROW_WINDOW,
+  NUMBER_ADDED_CARDS_WIDE_WINDOW,
+  NUMBER_ADDED_CARDS_MEDIUM_WINDOW,
+  NUMBER_ADDED_CARDS_NARROW_WINDOW,
+  MIN_WIDTH_WIDE_WINDOW,
+  MIN_WIDTH_MEDIUM_WINDOW
+} from "../../utils/constant";
 import "./Movies.css";
 import Header from "../Header/Header";
 import Footer from "../Footer/Footer";
@@ -17,6 +28,7 @@ function Movies({ loggedIn, searchText, filterCheck }) {
   const [foundMovies, setFoundMovies] = useState([]);
   const [filterMovies, setFilterMovies] = useState([]);
   const [displayMovies, setDisplayMovies] = useState([]);
+  const [isFirstSearchDone, setIsFirstSearchDone] = useState(false);
   const [searchFilmQuery, setSearchFilmQuery] = useState("");
   const [noticeResApiMovie, setNoticeResApiMovie] = useState("");
   const [noticeResApi, setNoticeResApi] = useState("");
@@ -24,12 +36,12 @@ function Movies({ loggedIn, searchText, filterCheck }) {
   const [savedMovies, setSavedMovies] = useState([]);
   const [moviesToDisplay, setMoviesToDisplay] = useState(false);
   const [startMoviesCounter, setStartMoviesCounter] = useState(() => {
-    if (windowWidth > 950) {
-      return 12;
-    } else if (windowWidth > 650) {
-      return 8;
-    } else if (windowWidth <= 650) {
-      return 5;
+    if (windowWidth > MIN_WIDTH_WIDE_WINDOW) {
+      return NUMBER_INITIAL_CARDS_WIDE_WINDOW;
+    } else if (windowWidth > MIN_WIDTH_MEDIUM_WINDOW) {
+      return NUMBER_INITIAL_CARDS_MEDIUM_WINDOW;
+    } else if (windowWidth <= MIN_WIDTH_MEDIUM_WINDOW) {
+      return NUMBER_INITIAL_CARDS_NARROW_WINDOW;
     }
   });
   const [moviesCounter, setMoviesCounter] = useState(startMoviesCounter);
@@ -57,6 +69,7 @@ function Movies({ loggedIn, searchText, filterCheck }) {
     }
     if (localStorage.getItem("searchFilmQuery")) {
       setSearchFilmQuery(localStorage.getItem("searchFilmQuery"));
+      setIsFirstSearchDone(true);
     }
     if (localStorage.getItem("shortMovies")) {
       setShortMovies(JSON.parse(localStorage.getItem("shortMovies")));
@@ -81,26 +94,26 @@ function Movies({ loggedIn, searchText, filterCheck }) {
   }, [filterMovies, displayMovies]);
 
   useEffect(() => {
-    if (windowWidth > 950) {
-      setStartMoviesCounter(12);
+    if (windowWidth > MIN_WIDTH_WIDE_WINDOW) {
+      setStartMoviesCounter(NUMBER_INITIAL_CARDS_WIDE_WINDOW);
       return;
-    } else if (windowWidth > 650) {
-      setStartMoviesCounter(8);
+    } else if (windowWidth > MIN_WIDTH_MEDIUM_WINDOW) {
+      setStartMoviesCounter(NUMBER_INITIAL_CARDS_MEDIUM_WINDOW);
       return;
-    } else if (windowWidth <= 650) {
-      setStartMoviesCounter(5);
+    } else if (windowWidth <= MIN_WIDTH_MEDIUM_WINDOW) {
+      setStartMoviesCounter(NUMBER_INITIAL_CARDS_NARROW_WINDOW);
     }
   }, [windowWidth]);
 
   const handleMoreButton = () => {
-    if (windowWidth > 950) {
-      setMoviesCounter((state) => state + 4);
+    if (windowWidth > MIN_WIDTH_WIDE_WINDOW) {
+      setMoviesCounter((state) => state + NUMBER_ADDED_CARDS_WIDE_WINDOW);
       return;
-    } else if (windowWidth > 650) {
-      setMoviesCounter((state) => state + 2);
+    } else if (windowWidth > MIN_WIDTH_MEDIUM_WINDOW) {
+      setMoviesCounter((state) => state + NUMBER_ADDED_CARDS_MEDIUM_WINDOW);
       return;
-    } else if (windowWidth <= 650) {
-      setMoviesCounter((state) => state + 2);
+    } else if (windowWidth <= MIN_WIDTH_MEDIUM_WINDOW) {
+      setMoviesCounter((state) => state + NUMBER_ADDED_CARDS_NARROW_WINDOW);
     }
   };
 
@@ -118,12 +131,13 @@ function Movies({ loggedIn, searchText, filterCheck }) {
   }
 
   function filterCheckMovies(movie) {
-    return filterCheck(movie, "duration", 40);
+    return filterCheck(movie, "duration", DURATION_SHORT_FILM_FILTER);
   }
 
   const handleSearchMovies = (evt) => {
     evt.preventDefault();
     setMoviesCounter(startMoviesCounter);
+    setIsFirstSearchDone(true);
     if (searchFilmQuery) {
       localStorage.setItem("searchFilmQuery", searchFilmQuery);
       localStorage.setItem("shortMovies", shortMovies);
@@ -233,15 +247,18 @@ function Movies({ loggedIn, searchText, filterCheck }) {
           />
         </div>
         {isAwaitApiQuery && <Preloader />}
-        {displayMovies && !isAwaitApiQuery && !noticeResApiMovie && (
-          <MoviesCardList
-            movies={displayMovies}
-            onMovieLike={handleMovieLike}
-            likeMovies={savedMovies}
-            moviesToDisplay={moviesToDisplay}
-            showMoreMovies={handleMoreButton}
-          />
-        )}
+        {displayMovies &&
+          !isAwaitApiQuery &&
+          !noticeResApiMovie &&
+          isFirstSearchDone && (
+            <MoviesCardList
+              movies={displayMovies}
+              onMovieLike={handleMovieLike}
+              likeMovies={savedMovies}
+              moviesToDisplay={moviesToDisplay}
+              showMoreMovies={handleMoreButton}
+            />
+          )}
         <p className="movies__error-api">
           {noticeResApiMovie} {noticeResApi}
         </p>
