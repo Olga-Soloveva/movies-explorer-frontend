@@ -1,0 +1,12 @@
+export const BASE_URL = "https://api.olgatovstaya.beatfilm.nomoredomains.club"
+export const MOVIES_URL = "https://api.nomoreparties.co/beatfilm-movies"
+export const MOVIES_URL_IMAGE = "https://api.nomoreparties.co"
+export const DURATION_SHORT_FILM_FILTER = 40
+export const NUMBER_INITIAL_CARDS_WIDE_WINDOW = 12
+export const NUMBER_INITIAL_CARDS_MEDIUM_WINDOW = 8
+export const NUMBER_INITIAL_CARDS_NARROW_WINDOW = 5
+export const NUMBER_ADDED_CARDS_WIDE_WINDOW = 4
+export const NUMBER_ADDED_CARDS_MEDIUM_WINDOW = 2
+export const NUMBER_ADDED_CARDS_NARROW_WINDOW = 2
+export const MIN_WIDTH_WIDE_WINDOW = 950
+export const MIN_WIDTH_MEDIUM_WINDOW = 650

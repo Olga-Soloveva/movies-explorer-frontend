@@ -1,17 +1,19 @@
 import "./Form.css";
 import logo from "../../images/logo.svg";
-import { Link, useHistory } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 function Form({
+  idForm,
   title,
   buttonText,
   descriptionText,
   linkText,
   link,
+  handleSubmit,
+  isValidForm,
+  noticeResApi,
   children,
 }) {
-  const history = useHistory();
-
   return (
     <section className="form">
       <div className="form__top-conteiner">
@@ -22,17 +24,21 @@ function Form({
       </div>
       <form
         className="form__form-conteiner"
-        name="register"
-        id="register"
+        name={idForm}
+        id={idForm}
+        onSubmit={handleSubmit}
+        noValidate
       >
         {children}
       </form>
       <div className="form__bottom-conteiner">
+        <p className="form__error-api">{noticeResApi}</p>
         <button
+          form={idForm}
           className="form__button"
           type="submit"
           aria-label={buttonText}
-          onClick={() => history.push("/movies")}
+          disabled={!isValidForm}
         >
           {buttonText}
         </button>

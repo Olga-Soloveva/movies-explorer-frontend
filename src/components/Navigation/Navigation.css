@@ -21,6 +21,7 @@
 .navigation__link-container {
   font-size: 0;
   line-height: 0;
+  text-decoration: none;
 }
 
 .navigation__link {
@@ -157,6 +158,7 @@
 .navigation__burger-link-container {
   font-size: 0;
   line-height: 0;
+  text-decoration: none;
 }
 
 .navigation__burger-link {
@@ -178,6 +180,7 @@
 }
 
 .navigation__burger-proflie-container {
+  text-decoration: none;
   display: flex;
   justify-content: center;
   gap: 13px;
@@ -194,7 +197,13 @@
 }
 
 .navigation__burger-proflie-link:hover {
+  text-decoration: none;
   opacity: 0.7;
+}
+
+
+.navigation__burger-proflie-link:visited {
+  text-decoration: none;
 }
 
 .navigation__burger-proflie-button {

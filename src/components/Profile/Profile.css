@@ -16,9 +16,12 @@
 
 .profile__form {
   width: 410px;
+  height: 340px;
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
   align-items: center;
+  box-sizing: border-box;
 }
 
 .profile__fieldset {
@@ -65,6 +68,10 @@
   outline: none;
 }
 
+.profile__form-input_novalidate {
+  color: #ee3465;
+}
+
 .profile__form-input:focus {
   outline-color: transparent;
 }
@@ -74,7 +81,7 @@
 }
 
 .profile__button {
-  margin: 220px 0 16px;
+  margin: 0 0 16px;
   padding: 0;
   border: 0;
   background-color: transparent;
@@ -95,6 +102,14 @@
   cursor: default;
 }
 
+.profile__res-api {
+  color: #3DDC84;
+  font-weight: 500;
+  font-size: 13px;
+  line-height: 16px;
+  margin: 0;
+}
+
 .profile__link {
   color: #ee3465;
   font-weight: 500;
@@ -111,10 +126,6 @@
 @media screen and (max-width: 950px) {
   .profile__title {
     margin: 236px 0 96px;
-  }
-
-  .profile__button {
-    margin: 210px 0 16px;
   }
 }
 
@@ -133,7 +144,7 @@
   }
 
   .profile__button {
-    margin: 210px 0 16px;
+    margin: 0 0 16px;
   }
 
   .profile__form {
@@ -142,11 +153,16 @@
     justify-content: space-between;
     padding: 80px 0 16px;
   }
-
+  
   .profile__button {
     font-size: 12px;
     line-height: 15px;
     margin: 0;
+  }
+
+  .profile__res-api {
+    font-size: 12px;
+    line-height: 15px;
   }
 
   .profile__link {
