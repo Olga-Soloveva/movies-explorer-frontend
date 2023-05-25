@@ -1,4 +1,5 @@
-export const BASE_URL = "https://api.olgatovstaya.beatfilm.nomoredomains.club"
+// export const BASE_URL = "https://api.olgatovstaya.beatfilm.nomoredomains.club"
+export const BASE_URL = "http://51.250.26.11"
 export const MOVIES_URL = "https://api.nomoreparties.co/beatfilm-movies"
 export const MOVIES_URL_IMAGE = "https://api.nomoreparties.co"
 export const DURATION_SHORT_FILM_FILTER = 40
