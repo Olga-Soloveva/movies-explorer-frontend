@@ -12,8 +12,7 @@ function Register({ onRegister, noticeResApi, clearNoticeResApi }) {
   function handleSubmit(evt) {
     evt.preventDefault();
     const { email, password, name } = values;
-    console.log(values)
-    onRegister(email, password, name);
+    onRegister({email, password, name});
   }
 
   useEffect(() => {

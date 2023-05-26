@@ -76,6 +76,7 @@ function App() {
           // eslint-disable-next-line no-unreachable
         }
         if (data.token) {
+     
           localStorage.setItem("jwt", data.token);
           setLoggedIn(true);
           history.push("/movies");
